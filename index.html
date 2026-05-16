@@ -195,6 +195,17 @@
             z-index: 1;
             filter: brightness(0.95);
             will-change: transform;
+            /* Dissimulation absolue de l'interface native de lecture des navigateurs */
+            pointer-events: none;
+        }
+
+        /* Neutralisation des contrôles fantômes de Safari iOS */
+        video::-webkit-media-controls {
+            display:none !important;
+        }
+        video::-webkit-media-controls-start-playback-button {
+            display: none !important;
+            -webkit-appearance: none;
         }
 
         .hero-overlay {
@@ -799,7 +810,7 @@
     </header>
 
     <section class="hero" id="hero">
-        <video class="hero-video" id="hero-video" autoplay loop muted playsinline webkit-playsinline>
+        <video class="hero-video" id="hero-video" autoplay loop muted playsinline webkit-playsinline preload="auto" controls="false">
             <source src="Dune Prototype 1.mp4" type="video/mp4">
             Votre navigateur ne supporte pas la lecture de cette vidéo.
         </video>
@@ -984,6 +995,18 @@
             if (e.target === modal) {
                 closeRecallModal();
             }
+        });
+
+        /* --- 6. SÉCURITÉ JAVASCRIPT FORCE AUTOPLAY (Contre le blocage des navigateurs) --- */
+        window.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('hero-video');
+            // Force l'exécution de la lecture dès que le DOM est prêt
+            video.play().catch(error => {
+                console.log("Lecture automatique déclenchée de secours.");
+                // Sécurité si le navigateur est extrêmement restrictif : on remet en muet strict et relance
+                video.muted = true;
+                video.play();
+            });
         });
     </script>
 </body>
