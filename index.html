@@ -129,6 +129,7 @@
             display: flex;
             list-style: none;
             gap: 35px;
+            align-items: center;
         }
 
         nav ul li a {
@@ -167,6 +168,14 @@
         nav ul li a:hover {
             color: var(--primary-color) !important;
             transform: translateY(-1px);
+        }
+
+        /* Style spécifique pour le bouton de langue */
+        .lang-switch a {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
         }
 
         /* --- HERO SECTION AVEC VIDEO & EFFET DE PRONFONDEUR --- */
@@ -803,6 +812,7 @@
                 <li><a href="#histoire">L'Histoire</a></li>
                 <li><a href="#collection">Collection</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li class="lang-switch"><a onclick="changeLanguage('en')">🌐 EN</a></li>
             </ul>
         </nav>
     </header>
@@ -998,7 +1008,6 @@
         /* --- 6. SÉCURITÉ AUTOPLAY & ACTIVATION DU SON AU PREMIER CLIC --- */
         const video = document.getElementById('hero-video');
 
-        // Fonction pour forcer la lecture silencieuse au chargement
         function forcePlayVideo() {
             if (video) {
                 video.muted = true; 
@@ -1012,24 +1021,27 @@
             }
         }
 
-        // Fonction pour activer le son ET forcer la lecture si elle était bloquée
         function activateAudioAndPlay() {
             if (video) {
-                video.muted = false; // Active le son
+                video.muted = false; 
                 if (video.paused) {
-                    video.play(); // Lance la vidéo si elle ne tournait pas encore
+                    video.play(); 
                 }
             }
         }
 
-        // Tente de lancer la vidéo en silence dès le chargement
         window.addEventListener('DOMContentLoaded', forcePlayVideo);
         window.addEventListener('load', forcePlayVideo);
         
-        // Capter n'importe quelle interaction globale (clic, toucher, frappe clavier) pour activer le son
         document.body.addEventListener('click', activateAudioAndPlay, { once: true });
         document.body.addEventListener('touchstart', activateAudioAndPlay, { once: true });
         document.body.addEventListener('keydown', activateAudioAndPlay, { once: true });
+
+        /* --- 7. FONCTION DE CHANGEMENT DE LANGUE --- */
+        function changeLanguage(lang) {
+            // Logique prête pour l'intégration de votre système d'internationalisation ou redirection
+            alert("Switching to English version...");
+        }
     </script>
 </body>
 </html>
