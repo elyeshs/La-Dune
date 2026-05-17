@@ -808,7 +808,7 @@
     </header>
 
     <section class="hero" id="hero">
-        <video class="hero-video" id="hero-video" autoplay="autoplay" loop="loop" muted="muted" playsinline="playsinline" webkit-playsinline="true" preload="auto" controls="false">
+        <video class="hero-video" id="hero-video" autoplay loop muted playsinline preload="auto">
             <source src="Dune Prototype 1.mp4" type="video/mp4">
             Votre navigateur ne supporte pas la lecture de cette vidéo.
         </video>
@@ -996,31 +996,40 @@
         });
 
         /* --- 6. SÉCURITÉ AUTOPLAY & ACTIVATION DU SON AU PREMIER CLIC --- */
+        const video = document.getElementById('hero-video');
+
+        // Fonction pour forcer la lecture silencieuse au chargement
         function forcePlayVideo() {
-            const video = document.getElementById('hero-video');
             if (video) {
-                // Obligatoire pour contourner le blocage du navigateur à l'ouverture
                 video.muted = true; 
-                video.play().catch(err => {
-                    console.log("Lecture en attente...");
-                });
+                let playPromise = video.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Lecture automatique bloquée. Attente d'une interaction utilisateur.");
+                    });
+                }
             }
         }
 
-        function activateAudio() {
-            const video = document.getElementById('hero-video');
+        // Fonction pour activer le son ET forcer la lecture si elle était bloquée
+        function activateAudioAndPlay() {
             if (video) {
-                video.muted = false; // Le son s'active !
+                video.muted = false; // Active le son
+                if (video.paused) {
+                    video.play(); // Lance la vidéo si elle ne tournait pas encore
+                }
             }
         }
 
-        // Lance la vidéo en silence dès le chargement
+        // Tente de lancer la vidéo en silence dès le chargement
         window.addEventListener('DOMContentLoaded', forcePlayVideo);
         window.addEventListener('load', forcePlayVideo);
         
-        // Active le son à la seconde où l'utilisateur clique n'importe où sur la page
-        window.addEventListener('click', activateAudio, { once: true });
-        window.addEventListener('touchstart', activateAudio, { once: true });
+        // Capter n'importe quelle interaction globale (clic, toucher, frappe clavier) pour activer le son
+        document.body.addEventListener('click', activateAudioAndPlay, { once: true });
+        document.body.addEventListener('touchstart', activateAudioAndPlay, { once: true });
+        document.body.addEventListener('keydown', activateAudioAndPlay, { once: true });
     </script>
 </body>
 </html>
