@@ -149,7 +149,7 @@
             color: var(--dark-color);
         }
 
-        /* Effet de soulignement uniquement pour les liens classiques (pas le sélecteur de langue) */
+        /* Effet de soulignement uniquement pour les liens classiques */
         nav ul li:not(.lang-selector-container) a::after {
             content: '';
             position: absolute;
@@ -171,51 +171,103 @@
             transform: translateY(-1px);
         }
 
-        /* --- STYLE DU SÉLECTEUR DE LANGUE HARMONISÉ --- */
+        /* --- SÉLECTEUR DE LANGUE PREMIUM ET HARMONISÉ --- */
         .lang-selector-container {
-            display: inline-block;
+            position: relative;
+            user-select: none;
         }
 
-        .lang-select {
+        .lang-custom-trigger {
             font-family: var(--font-sans);
             font-size: 12px;
             letter-spacing: 1.5px;
             color: #fff;
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 6px 28px 6px 12px;
+            padding: 7px 30px 7px 14px;
             border-radius: 20px;
             cursor: pointer;
-            outline: none;
             transition: all 0.3s ease;
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            /* Flèche personnalisée minimaliste blanche */
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M0 3l5 5 5-5z' fill='%23fff'/></svg>");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            position: relative;
         }
 
-        /* Changement de couleur dynamique du sélecteur au défilement */
-        header.scrolled .lang-select {
+        /* Petite flèche or minimaliste */
+        .lang-custom-trigger::after {
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-20%) rotate(0deg);
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 5px solid var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        header.scrolled .lang-custom-trigger {
             color: var(--dark-color);
             border-color: rgba(74, 66, 56, 0.2);
-            /* Flèche personnalisée en brun foncé */
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M0 3l5 5 5-5z' fill='%234a4238'/></svg>");
         }
 
-        .lang-select:hover {
+        .lang-custom-trigger:hover {
             border-color: var(--primary-color) !important;
-            background-color: rgba(197, 168, 128, 0.1);
+            background-color: rgba(197, 168, 128, 0.08);
         }
 
-        /* Style des options internes du menu déroulant */
-        .lang-select option {
-            background-color: var(--bg-color);
-            color: var(--dark-color);
+        /* Menu déroulant caché par défaut */
+        .lang-custom-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background-color: rgba(252, 249, 245, 0.98);
+            border: 1px solid rgba(197, 168, 128, 0.25);
+            border-radius: 12px;
+            list-style: none;
+            padding: 6px 0;
+            min-width: 95px;
+            box-shadow: 0 10px 30px rgba(74, 66, 56, 0.08);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex;
+            flex-direction: column;
+            z-index: 1100;
+        }
+
+        .lang-selector-container.active .lang-custom-menu {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        .lang-selector-container.active .lang-custom-trigger::after {
+            transform: translateY(-40%) rotate(180deg);
+        }
+
+        .lang-custom-menu li {
             font-family: var(--font-sans);
-            letter-spacing: 1px;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            color: var(--dark-color);
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .lang-custom-menu li:hover {
+            background-color: rgba(197, 168, 128, 0.15);
+            color: var(--primary-color);
+        }
+        
+        .lang-custom-menu li.selected {
+            font-weight: 500;
+            color: var(--primary-color);
         }
 
         /* --- HERO SECTION AVEC VIDEO --- */
@@ -790,12 +842,21 @@
             }
 
             /* Adaptation mobile du sélecteur */
-            header .lang-select {
+            header .lang-custom-trigger {
                 color: var(--dark-color);
                 border-color: rgba(74, 66, 56, 0.2);
-                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M0 3l5 5 5-5z' fill='%234a4238'/></svg>");
-                padding: 5px 22px 5px 10px;
+                padding: 6px 24px 6px 12px;
                 font-size: 11px;
+            }
+            
+            .lang-custom-menu {
+                right: auto;
+                left: 50%;
+                transform: translateX(-50%) translateY(-10px);
+            }
+            
+            .lang-selector-container.active .lang-custom-menu {
+                transform: translateX(-50%) translateY(0);
             }
 
             .hero-content {
@@ -859,12 +920,16 @@
                 <li><a href="#histoire">L'Histoire</a></li>
                 <li><a href="#collection">Collection</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li class="lang-selector-container">
-                    <select class="lang-select" id="lang-select" onchange="switchLanguage(this.value)">
-                        <option value="fr">🌐 FR</option>
-                        <option value="en">🌐 EN</option>
-                        <option value="de">🌐 DE</option>
-                    </select>
+                
+                <li class="lang-selector-container" id="lang-container">
+                    <div class="lang-custom-trigger" onclick="toggleLangMenu(event)">
+                        🌐 <span id="current-lang-label">FR</span>
+                    </div>
+                    <ul class="lang-custom-menu">
+                        <li id="opt-fr" class="selected" onclick="switchLanguage('fr')">FR</li>
+                        <li id="opt-en" onclick="switchLanguage('en')">EN</li>
+                        <li id="opt-de" onclick="switchLanguage('de')">DE</li>
+                    </ul>
                 </li>
             </ul>
         </nav>
@@ -1083,7 +1148,20 @@
         document.body.addEventListener('touchstart', activateAudioAndPlay, { once: true });
         document.body.addEventListener('keydown', activateAudioAndPlay, { once: true });
 
-        /* --- 7. FONCTION DE TRADUCTION TRILINGUE INSTANTANÉE --- */
+        /* --- 7. GESTION DU MENU DÉROULANT DE LANGUE (CUSTOM DROPDOWN) --- */
+        const langContainer = document.getElementById('lang-container');
+        
+        function toggleLangMenu(event) {
+            event.stopPropagation();
+            langContainer.classList.toggle('active');
+        }
+
+        // Fermeture automatique du menu déroulant si on clique à l'extérieur
+        window.addEventListener('click', () => {
+            langContainer.classList.remove('active');
+        });
+
+        /* --- 8. FONCTION DE TRADUCTION TRILINGUE INSTANTANÉE --- */
         let currentLang = 'fr';
 
         // Base de données linguistique de tous les textes éditables du site
@@ -1131,7 +1209,14 @@
             currentLang = targetLang;
             document.documentElement.lang = currentLang;
 
-            // Application instantanée et transparente de toutes les traductions via sélecteurs
+            // 1. Mettre à jour visuellement le sélecteur personnalisé
+            document.getElementById('current-lang-label').innerText = currentLang.toUpperCase();
+            
+            // Gestion de la classe 'selected' dans les éléments de la liste
+            document.querySelectorAll('.lang-custom-menu li').forEach(el => el.classList.remove('selected'));
+            document.getElementById(`opt-${currentLang}`).classList.add('selected');
+
+            // 2. Application instantanée de toutes les traductions via les sélecteurs ciblés
             document.querySelector('title').innerText = dictionary['title'][currentLang];
             document.querySelector('nav ul li:nth-child(1) a').innerText = dictionary['nav-home'][currentLang];
             document.querySelector('nav ul li:nth-child(2) a').innerText = dictionary['nav-story'][currentLang];
