@@ -832,7 +832,7 @@
                 <li><a href="#histoire">L'Histoire</a></li>
                 <li><a href="#collection">Collection</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li class="lang-switch"><a onclick="changeLanguage('en')">🌐 EN</a></li>
+                <li class="lang-switch"><a onclick="toggleLanguage()">🌐 EN</a></li>
             </ul>
         </nav>
     </header>
@@ -1015,7 +1015,11 @@
             const email = recallEmailInput.value;
             const product = modalProductName.innerText;
             
-            alert(`Merci. Un e-mail de rappel vous sera automatiquement envoyé à l'adresse ${email} dès le retour en stock de : ${product}.`);
+            if (document.documentElement.lang === 'en') {
+                alert(`Thank you. A reminder email will be automatically sent to ${email} as soon as ${product} is back in stock.`);
+            } else {
+                alert(`Merci. Un e-mail de rappel vous sera automatiquement envoyé à l'adresse ${email} dès le retour en stock de : ${product}.`);
+            }
             closeRecallModal();
         }
 
@@ -1057,10 +1061,72 @@
         document.body.addEventListener('touchstart', activateAudioAndPlay, { once: true });
         document.body.addEventListener('keydown', activateAudioAndPlay, { once: true });
 
-        /* --- 7. FONCTION DE CHANGEMENT DE LANGUE --- */
-        function changeLanguage(lang) {
-            // Logique prête pour l'intégration de votre système d'internationalisation ou redirection
-            alert("Switching to English version...");
+        /* --- 7. FONCTION DE TRADUCTION BILINGUE INTÉGRÉE --- */
+        let currentLang = 'fr';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'fr' ? 'en' : 'fr';
+            document.documentElement.lang = currentLang;
+
+            const translations = [
+                { selector: 'title', fr: 'La Dune Signature | Cosmétique Élégante & Sobre', en: 'La Dune Signature | Elegant & Sober Cosmetics' },
+                { selector: 'nav ul li:nth-child(1) a', fr: 'Accueil', en: 'Home' },
+                { selector: 'nav ul li:nth-child(2) a', fr: "L'Histoire", en: 'The Story' },
+                { selector: 'nav ul li:nth-child(3) a', fr: 'Collection', en: 'Collection' },
+                { selector: 'nav ul li:nth-child(4) a', fr: 'Contact', en: 'Contact' },
+                { selector: '.lang-switch a', fr: '🌐 EN', en: '🌐 FR', isHTML: true },
+                
+                { selector: '.hero-content p', fr: "L'essentiel de la beauté pure, inspiré par la nature", en: 'The essence of pure beauty, inspired by nature' },
+                { selector: '.hero-content .btn-gold', fr: 'Découvrir la collection', en: 'Discover the collection' },
+                
+                { selector: '.section-about .section-tag', fr: "L'Équilibre Pure", en: 'Pure Balance' },
+                { selector: '.section-about h2', fr: 'Notre Philosophie', en: 'Our Philosophy' },
+                { selector: '.section-about .about-text', fr: '"Née du mouvement intemporel du vent sur le sable, La Dune Signature incarne des rituels cosmétiques épurés. Des textures fluides, des formulations d\'une pureté absolue, créées pour révéler l\'éclat authentique et sobre de votre peau."', en: '"Born from the timeless movement of wind on sand, La Dune Signature embodies pure cosmetic rituals. Fluid textures, formulations of absolute purity, created to reveal the authentic and sober radiance of your skin."' },
+                
+                { selector: '.section-products .section-tag', fr: 'Édition Limitée', en: 'Limited Edition' },
+                { selector: '.section-products h2', fr: 'La Collection Signature', en: 'The Signature Collection' },
+                
+                { selector: '.product-card:nth-child(1) h3', fr: "L'Élixir Doré", en: 'The Golden Elixir' },
+                { selector: '.product-card:nth-child(1) .product-type', fr: 'Huile de soin régénérante', en: 'Regenerating care oil' },
+                { selector: '.product-card:nth-child(1) .stock-status', fr: 'Rupture de stock', en: 'Out of stock' },
+                { selector: '.product-card:nth-child(1) .btn-recall', fr: 'Rappelez-moi', en: 'Remind me' },
+                { selector: '.product-card:nth-child(1) .btn-recall', attr: 'onclick', fr: "openRecallModal('L\\'Élixir Doré')", en: "openRecallModal('The Golden Elixir')" },
+                
+                { selector: '.product-card:nth-child(2) h3', fr: 'Crème de Soie', en: 'Silk Cream' },
+                { selector: '.product-card:nth-child(2) .product-type', fr: 'Soin hydratant absolu', en: 'Absolute moisturizing care' },
+                { selector: '.product-card:nth-child(2) .stock-status', fr: 'Rupture de stock', en: 'Out of stock' },
+                { selector: '.product-card:nth-child(2) .btn-recall', fr: 'Rappelez-moi', en: 'Remind me' },
+                { selector: '.product-card:nth-child(2) .btn-recall', attr: 'onclick', fr: "openRecallModal('Crème de Soie')", en: "openRecallModal('Silk Cream')" },
+                
+                { selector: '.product-card:nth-child(3) h3', fr: 'Brume de Sable', en: 'Sand Mist' },
+                { selector: '.product-card:nth-child(3) .product-type', fr: 'Lotion tonique minérale', en: 'Mineral tonic lotion' },
+                { selector: '.product-card:nth-child(3) .stock-status', fr: 'Rupture de stock', en: 'Out of stock' },
+                { selector: '.product-card:nth-child(3) .btn-recall', fr: 'Rappelez-moi', en: 'Remind me' },
+                { selector: '.product-card:nth-child(3) .btn-recall', attr: 'onclick', fr: "openRecallModal('Brume de Sable')", en: "openRecallModal('Sand Mist')" },
+                
+                { selector: '.modal-box p', fr: 'Inscrivez votre e-mail pour recevoir une notification prioritaire dès que ce produit sera de nouveau disponible.', en: 'Enter your email to receive a priority notification as soon as this product is back in stock.' },
+                { selector: '#recall-email', attr: 'placeholder', fr: 'Votre adresse e-mail', en: 'Your email address' },
+                { selector: '.btn-submit', fr: "M'avertir de la disponibilité", en: 'Notify me when available' },
+                
+                { selector: '.footer-links a:nth-child(1)', fr: 'Mentions Légales', en: 'Legal Notice' },
+                { selector: '.footer-links a:nth-child(2)', fr: 'Politique de Confidentialité', en: 'Privacy Policy' },
+                { selector: '.footer-links a:nth-child(3)', fr: 'Boutique', en: 'Shop' },
+                { selector: '.footer-links a:nth-child(4)', fr: 'Suivez-nous', en: 'Follow us' },
+                { selector: '.copyright', fr: '&copy; 2026 LA DUNE SIGNATURE — LRH. TOUS DROITS RÉSERVÉS.', en: '&copy; 2026 LA DUNE SIGNATURE — LRH. ALL RIGHTS RESERVED.', isHTML: true }
+            ];
+
+            translations.forEach(item => {
+                const el = document.querySelector(item.selector);
+                if (el) {
+                    if (item.attr) {
+                        el.setAttribute(item.attr, item[currentLang]);
+                    } else if (item.isHTML) {
+                        el.innerHTML = item[currentLang];
+                    } else {
+                        el.innerText = item[currentLang];
+                    }
+                }
+            });
         }
     </script>
 </body>
