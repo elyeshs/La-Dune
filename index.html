@@ -172,6 +172,11 @@
         }
 
         /* --- STYLE SPÉCIFIQUE BOUTON SÉLECTEUR DE LANGUE --- */
+        .lang-switch-container {
+            display: flex;
+            gap: 10px;
+        }
+
         .lang-switch a {
             display: flex;
             align-items: center;
@@ -193,7 +198,7 @@
             background-color: rgba(197, 168, 128, 0.1);
         }
 
-        /* --- HERO SECTION AVEC VIDEO & EFFET DE PRONFONDEUR --- */
+        /* --- HERO SECTION AVEC VIDEO --- */
         .hero {
             position: relative;
             height: 100vh;
@@ -251,7 +256,6 @@
             transition: transform 0.1s ease-out;
         }
 
-        /* Reproduction stylisée des dunes du logo en CSS */
         .hero-dune-icon {
             width: 100px;
             height: 30px;
@@ -284,10 +288,9 @@
             50% { transform: translateY(-6px); }
         }
 
-        /* Animation d'apparition des lettres du titre principal */
         .hero h1 {
             font-family: var(--font-serif);
-            font-size: calc(32px + 2.5vw); /* Taille fluide et adaptative pour le mobile */
+            font-size: calc(32px + 2.5vw);
             font-weight: 400;
             letter-spacing: 6px;
             margin-bottom: 5px;
@@ -310,7 +313,7 @@
 
         .hero .signature {
             font-family: var(--font-signature);
-            font-size: calc(28px + 1.5vw); /* Taille fluide adaptative */
+            font-size: calc(28px + 1.5vw);
             color: var(--light-gold);
             margin-bottom: 25px;
             display: block;
@@ -334,7 +337,7 @@
             to { opacity: 1; }
         }
 
-        /* --- BOUTONS ÉLÉGANTS --- */
+        /* --- BOUTONS --- */
         .btn-gold {
             display: inline-block;
             padding: 15px 40px;
@@ -375,7 +378,7 @@
             transform: translateY(-3px);
         }
 
-        /* --- SECTION L'HISTOIRE (ABOUT) --- */
+        /* --- SECTION L'HISTOIRE --- */
         .section-about {
             padding: 120px 24px;
             max-width: 900px;
@@ -425,7 +428,7 @@
             margin-bottom: 30px;
         }
 
-        /* --- SECTION COLLECTION LUXE --- */
+        /* --- SECTION COLLECTION --- */
         .section-products {
             padding: 80px 50px 120px 50px;
             background-color: rgba(245, 238, 228, 0.4);
@@ -536,7 +539,7 @@
             color: var(--bg-color);
         }
 
-        /* --- BOÎTE MODALE RAPPELEZ-MOI (POPUP) --- */
+        /* --- BOÎTE MODALE RAPPELEZ-MOI --- */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -720,7 +723,7 @@
             line-height: 1.5;
         }
 
-        /* --- CONFIGURATION RESPONSIVE MEDIA QUERIES --- */
+        /* --- CONFIGURATION RESPONSIVE --- */
         @media (max-width: 1024px) {
             .product-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -766,6 +769,10 @@
                 letter-spacing: 1.5px;
             }
 
+            .lang-switch-container {
+                gap: 6px;
+            }
+
             .lang-switch a {
                 padding: 5px 10px !important;
                 font-size: 10px;
@@ -799,7 +806,7 @@
                 padding: 15px 15px;
             }
             nav ul {
-                gap: 15px;
+                gap: 12px;
             }
             nav ul li a {
                 font-size: 10px;
@@ -832,7 +839,10 @@
                 <li><a href="#histoire">L'Histoire</a></li>
                 <li><a href="#collection">Collection</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li class="lang-switch"><a onclick="toggleLanguage()">🌐 EN</a></li>
+                <li class="lang-switch-container">
+                    <span class="lang-switch"><a id="btn-lang-1" onclick="switchLanguage('en')">🌐 EN</a></span>
+                    <span class="lang-switch"><a id="btn-lang-2" onclick="switchLanguage('de')">🌐 DE</a></span>
+                </li>
             </ul>
         </nav>
     </header>
@@ -937,7 +947,7 @@
             titleContainer.appendChild(span);
         });
 
-        /* --- 2. SILLAGE DE PARTICULES SOURIS (Uniquement sur Desktop) --- */
+        /* --- 2. SILLAGE DE PARTICULES SOURIS --- */
         window.addEventListener('mousemove', (e) => {
             if (window.innerWidth > 768 && Math.random() > 0.3) {
                 const trail = document.createElement('div');
@@ -976,12 +986,9 @@
             }
         });
 
-        /* --- 4. ANIMATION D'APPARITION DELICATE --- */
+        /* --- 4. ANIMATION D'APPARITION --- */
         const fadeElements = document.querySelectorAll('.fade-in');
-        const appearanceOptions = {
-            threshold: 0.05,
-            rootMargin: "0px 0px -20px 0px"
-        };
+        const appearanceOptions = { threshold: 0.05, rootMargin: "0px 0px -20px 0px" };
 
         const appearanceObserver = new IntersectionObserver(function(entries, observer) {
             entries.forEach(entry => {
@@ -991,9 +998,7 @@
             });
         }, appearanceOptions);
 
-        fadeElements.forEach(element => {
-            appearanceObserver.observe(element);
-        });
+        fadeElements.forEach(element => { appearanceObserver.observe(element); });
 
         /* --- 5. GESTION DE LA BOÎTE MODALE RAPPELEZ-MOI --- */
         const modal = document.getElementById('recall-modal');
@@ -1017,6 +1022,8 @@
             
             if (document.documentElement.lang === 'en') {
                 alert(`Thank you. A reminder email will be automatically sent to ${email} as soon as ${product} is back in stock.`);
+            } else if (document.documentElement.lang === 'de') {
+                alert(`Vielen Dank. Eine Erinnerungs-E-Mail wird automatisch an ${email} gesendet, sobald ${product} wieder lieferbar ist.`);
             } else {
                 alert(`Merci. Un e-mail de rappel vous sera automatiquement envoyé à l'adresse ${email} dès le retour en stock de : ${product}.`);
             }
@@ -1024,23 +1031,18 @@
         }
 
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeRecallModal();
-            }
+            if (e.target === modal) { closeRecallModal(); }
         });
 
-        /* --- 6. SÉCURITÉ AUTOPLAY & ACTIVATION DU SON AU PREMIER CLIC --- */
+        /* --- 6. SÉCURITÉ AUTOPLAY & ACTIVATION DU SON --- */
         const video = document.getElementById('hero-video');
 
         function forcePlayVideo() {
             if (video) {
                 video.muted = true; 
                 let playPromise = video.play();
-                
                 if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.log("Lecture automatique bloquée. Attente d'une interaction utilisateur.");
-                    });
+                    playPromise.catch(error => { console.log("Lecture automatique bloquée."); });
                 }
             }
         }
@@ -1048,85 +1050,131 @@
         function activateAudioAndPlay() {
             if (video) {
                 video.muted = false; 
-                if (video.paused) {
-                    video.play(); 
-                }
+                if (video.paused) { video.play(); }
             }
         }
 
         window.addEventListener('DOMContentLoaded', forcePlayVideo);
         window.addEventListener('load', forcePlayVideo);
-        
         document.body.addEventListener('click', activateAudioAndPlay, { once: true });
         document.body.addEventListener('touchstart', activateAudioAndPlay, { once: true });
         document.body.addEventListener('keydown', activateAudioAndPlay, { once: true });
 
-        /* --- 7. FONCTION DE TRADUCTION BILINGUE INTÉGRÉE --- */
+        /* --- 7. FONCTION DE TRADUCTION TRILINGUE INSTANTANÉE --- */
         let currentLang = 'fr';
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'fr' ? 'en' : 'fr';
+        // Base de données linguistique de tous les textes éditables du site
+        const dictionary = {
+            'title': { fr: 'La Dune Signature | Cosmétique Élégante & Sobre', en: 'La Dune Signature | Elegant & Sober Cosmetics', de: 'La Dune Signature | Elegante & Schlichte Kosmetik' },
+            'nav-home': { fr: 'Accueil', en: 'Home', de: 'Startseite' },
+            'nav-story': { fr: "L'Histoire", en: 'The Story', de: 'Die Geschichte' },
+            'nav-collection': { fr: 'Collection', en: 'Collection', de: 'Kollektion' },
+            'nav-contact': { fr: 'Contact', en: 'Contact', de: 'Kontakt' },
+            'hero-p': { fr: "L'essentiel de la beauté pure, inspiré par la nature", en: 'The essence of pure beauty, inspired by nature', de: 'Das Wesentliche reiner Schönheit, inspiriert von der Natur' },
+            'hero-btn': { fr: 'Découvrir la collection', en: 'Discover the collection', de: 'Kollektion entdecken' },
+            'about-tag': { fr: "L'Équilibre Pure", en: 'Pure Balance', de: 'Reine Balance' },
+            'about-h2': { fr: 'Notre Philosophie', en: 'Our Philosophy', de: 'Unsere Philosophie' },
+            'about-txt': { fr: '"Née du mouvement intemporel du vent sur le sable, La Dune Signature incarne des rituels cosmétiques épurés. Des textures fluides, des formulations d\'une pureté absolue, créées pour révéler l\'éclat authentique et sobre de votre peau."', en: '"Born from the timeless movement of wind on sand, La Dune Signature embodies pure cosmetic rituals. Fluid textures, formulations of absolute purity, created to reveal the authentic and sober radiance of your skin."', de: '"Geboren aus der zeitlosen Bewegung des Windes auf dem Sand, verkörpert La Dune Signature reine kosmetische Rituale. Fließende Texturen, Rezepturen von absoluter Reinheit, kreiert, um die authentische und schlichte Ausstrahlung Ihrer Haut zu enthüllen."' },
+            'prod-tag': { fr: 'Édition Limitée', en: 'Limited Edition', de: 'Limitierte Auflage' },
+            'prod-h2': { fr: 'La Collection Signature', en: 'The Signature Collection', de: 'Die Signature-Kollektion' },
+            
+            'p1-title': { fr: "L'Élixir Doré", en: 'The Golden Elixir', de: 'Das Goldene Elixier' },
+            'p1-type': { fr: 'Huile de soin régénérante', en: 'Regenerating care oil', de: 'Regenerierendes Pflegeöl' },
+            'p1-recall': { fr: "openRecallModal('L\\'Élixir Doré')", en: "openRecallModal('The Golden Elixir')", de: "openRecallModal('Das Goldene Elixier')" },
+            
+            'p2-title': { fr: 'Crème de Soie', en: 'Silk Cream', de: 'Seidencreme' },
+            'p2-type': { fr: 'Soin hydratant absolu', en: 'Absolute moisturizing care', de: 'Absolute Feuchtigkeitspflege' },
+            'p2-recall': { fr: "openRecallModal('Crème de Soie')", en: "openRecallModal('Silk Cream')", de: "openRecallModal('Seidencreme')" },
+            
+            'p3-title': { fr: 'Brume de Sable', en: 'Sand Mist', de: 'Sandnebel' },
+            'p3-type': { fr: 'Lotion tonique minérale', en: 'Mineral tonic lotion', de: 'Mineralische Tonisierende Lotion' },
+            'p3-recall': { fr: "openRecallModal('Brume de Sable')", en: "openRecallModal('Sand Mist')", de: "openRecallModal('Sandnebel')" },
+            
+            'prod-stock': { fr: 'Rupture de stock', en: 'Out of stock', de: 'Ausverkauft' },
+            'prod-btn': { fr: 'Rappelez-moi', en: 'Remind me', de: 'Benachrichtigen Sie mich' },
+            
+            'modal-p': { fr: 'Inscrivez votre e-mail pour recevoir une notification prioritaire dès que ce produit sera de nouveau disponible.', en: 'Enter your email to receive a priority notification as soon as this product is back in stock.', de: 'Geben Sie Ihre E-Mail-Adresse ein, um eine Benachrichtigung zu erhalten, sobald dieses Produkt wieder verfügbar ist.' },
+            'modal-ph': { fr: 'Votre adresse e-mail', en: 'Your email address', de: 'Ihre E-Mail-Adresse' },
+            'modal-btn': { fr: "M'avertir de la disponibilité", en: 'Notify me when available', de: 'Benachrichtigen, wenn verfügbar' },
+            
+            'f-link1': { fr: 'Mentions Légales', en: 'Legal Notice', de: 'Impressum' },
+            'f-link2': { fr: 'Politique de Confidentialité', en: 'Privacy Policy', de: 'Datenschutzerklärung' },
+            'f-link3': { fr: 'Boutique', en: 'Shop', de: 'Shop' },
+            'f-link4': { fr: 'Suivez-nous', en: 'Follow us', de: 'Folgen Sie uns' },
+            'f-copy': { fr: '&copy; 2026 LA DUNE SIGNATURE — LRH. TOUS DROITS RÉSERVÉS.', en: '&copy; 2026 LA DUNE SIGNATURE — LRH. ALL RIGHTS RESERVED.', de: '&copy; 2026 LA DUNE SIGNATURE — LRH. ALLE RECHTE VORBEHALTEN.' }
+        };
+
+        function switchLanguage(targetLang) {
+            // Si l'utilisateur clique sur la langue déjà active, on rebascule en Français
+            if (currentLang === targetLang) {
+                currentLang = 'fr';
+            } else {
+                currentLang = targetLang;
+            }
+            
             document.documentElement.lang = currentLang;
 
-            const translations = [
-                { selector: 'title', fr: 'La Dune Signature | Cosmétique Élégante & Sobre', en: 'La Dune Signature | Elegant & Sober Cosmetics' },
-                { selector: 'nav ul li:nth-child(1) a', fr: 'Accueil', en: 'Home' },
-                { selector: 'nav ul li:nth-child(2) a', fr: "L'Histoire", en: 'The Story' },
-                { selector: 'nav ul li:nth-child(3) a', fr: 'Collection', en: 'Collection' },
-                { selector: 'nav ul li:nth-child(4) a', fr: 'Contact', en: 'Contact' },
-                { selector: '.lang-switch a', fr: '🌐 EN', en: '🌐 FR', isHTML: true },
-                
-                { selector: '.hero-content p', fr: "L'essentiel de la beauté pure, inspiré par la nature", en: 'The essence of pure beauty, inspired by nature' },
-                { selector: '.hero-content .btn-gold', fr: 'Découvrir la collection', en: 'Discover the collection' },
-                
-                { selector: '.section-about .section-tag', fr: "L'Équilibre Pure", en: 'Pure Balance' },
-                { selector: '.section-about h2', fr: 'Notre Philosophie', en: 'Our Philosophy' },
-                { selector: '.section-about .about-text', fr: '"Née du mouvement intemporel du vent sur le sable, La Dune Signature incarne des rituels cosmétiques épurés. Des textures fluides, des formulations d\'une pureté absolue, créées pour révéler l\'éclat authentique et sobre de votre peau."', en: '"Born from the timeless movement of wind on sand, La Dune Signature embodies pure cosmetic rituals. Fluid textures, formulations of absolute purity, created to reveal the authentic and sober radiance of your skin."' },
-                
-                { selector: '.section-products .section-tag', fr: 'Édition Limitée', en: 'Limited Edition' },
-                { selector: '.section-products h2', fr: 'La Collection Signature', en: 'The Signature Collection' },
-                
-                { selector: '.product-card:nth-child(1) h3', fr: "L'Élixir Doré", en: 'The Golden Elixir' },
-                { selector: '.product-card:nth-child(1) .product-type', fr: 'Huile de soin régénérante', en: 'Regenerating care oil' },
-                { selector: '.product-card:nth-child(1) .stock-status', fr: 'Rupture de stock', en: 'Out of stock' },
-                { selector: '.product-card:nth-child(1) .btn-recall', fr: 'Rappelez-moi', en: 'Remind me' },
-                { selector: '.product-card:nth-child(1) .btn-recall', attr: 'onclick', fr: "openRecallModal('L\\'Élixir Doré')", en: "openRecallModal('The Golden Elixir')" },
-                
-                { selector: '.product-card:nth-child(2) h3', fr: 'Crème de Soie', en: 'Silk Cream' },
-                { selector: '.product-card:nth-child(2) .product-type', fr: 'Soin hydratant absolu', en: 'Absolute moisturizing care' },
-                { selector: '.product-card:nth-child(2) .stock-status', fr: 'Rupture de stock', en: 'Out of stock' },
-                { selector: '.product-card:nth-child(2) .btn-recall', fr: 'Rappelez-moi', en: 'Remind me' },
-                { selector: '.product-card:nth-child(2) .btn-recall', attr: 'onclick', fr: "openRecallModal('Crème de Soie')", en: "openRecallModal('Silk Cream')" },
-                
-                { selector: '.product-card:nth-child(3) h3', fr: 'Brume de Sable', en: 'Sand Mist' },
-                { selector: '.product-card:nth-child(3) .product-type', fr: 'Lotion tonique minérale', en: 'Mineral tonic lotion' },
-                { selector: '.product-card:nth-child(3) .stock-status', fr: 'Rupture de stock', en: 'Out of stock' },
-                { selector: '.product-card:nth-child(3) .btn-recall', fr: 'Rappelez-moi', en: 'Remind me' },
-                { selector: '.product-card:nth-child(3) .btn-recall', attr: 'onclick', fr: "openRecallModal('Brume de Sable')", en: "openRecallModal('Sand Mist')" },
-                
-                { selector: '.modal-box p', fr: 'Inscrivez votre e-mail pour recevoir une notification prioritaire dès que ce produit sera de nouveau disponible.', en: 'Enter your email to receive a priority notification as soon as this product is back in stock.' },
-                { selector: '#recall-email', attr: 'placeholder', fr: 'Votre adresse e-mail', en: 'Your email address' },
-                { selector: '.btn-submit', fr: "M'avertir de la disponibilité", en: 'Notify me when available' },
-                
-                { selector: '.footer-links a:nth-child(1)', fr: 'Mentions Légales', en: 'Legal Notice' },
-                { selector: '.footer-links a:nth-child(2)', fr: 'Politique de Confidentialité', en: 'Privacy Policy' },
-                { selector: '.footer-links a:nth-child(3)', fr: 'Boutique', en: 'Shop' },
-                { selector: '.footer-links a:nth-child(4)', fr: 'Suivez-nous', en: 'Follow us' },
-                { selector: '.copyright', fr: '&copy; 2026 LA DUNE SIGNATURE — LRH. TOUS DROITS RÉSERVÉS.', en: '&copy; 2026 LA DUNE SIGNATURE — LRH. ALL RIGHTS RESERVED.', isHTML: true }
-            ];
+            // 1. Mise à jour des boutons du menu de navigation pour refléter l'état
+            const btn1 = document.getElementById('btn-lang-1');
+            const btn2 = document.getElementById('btn-lang-2');
+            if (currentLang === 'fr') {
+                btn1.innerText = '🌐 EN';
+                btn2.innerText = '🌐 DE';
+            } else if (currentLang === 'en') {
+                btn1.innerText = '🌐 FR';
+                btn2.innerText = '🌐 DE';
+            } else if (currentLang === 'de') {
+                btn1.innerText = '🌐 EN';
+                btn2.innerText = '🌐 FR';
+            }
 
-            translations.forEach(item => {
-                const el = document.querySelector(item.selector);
-                if (el) {
-                    if (item.attr) {
-                        el.setAttribute(item.attr, item[currentLang]);
-                    } else if (item.isHTML) {
-                        el.innerHTML = item[currentLang];
-                    } else {
-                        el.innerText = item[currentLang];
-                    }
-                }
-            });
+            // 2. Application instantanée de toutes les traductions via sélecteurs ciblés
+            document.querySelector('title').innerText = dictionary['title'][currentLang];
+            document.querySelector('nav ul li:nth-child(1) a').innerText = dictionary['nav-home'][currentLang];
+            document.querySelector('nav ul li:nth-child(2) a').innerText = dictionary['nav-story'][currentLang];
+            document.querySelector('nav ul li:nth-child(3) a').innerText = dictionary['nav-collection'][currentLang];
+            document.querySelector('nav ul li:nth-child(4) a').innerText = dictionary['nav-contact'][currentLang];
+            
+            document.querySelector('.hero-content p').innerText = dictionary['hero-p'][currentLang];
+            document.querySelector('.hero-content .btn-gold').innerText = dictionary['hero-btn'][currentLang];
+            
+            document.querySelector('.section-about .section-tag').innerText = dictionary['about-tag'][currentLang];
+            document.querySelector('.section-about h2').innerText = dictionary['about-h2'][currentLang];
+            document.querySelector('.section-about .about-text').innerText = dictionary['about-txt'][currentLang];
+            
+            document.querySelector('.section-products .section-tag').innerText = dictionary['prod-tag'][currentLang];
+            document.querySelector('.section-products h2').innerText = dictionary['prod-h2'][currentLang];
+            
+            // Produit 1
+            document.querySelector('.product-grid .product-card:nth-child(1) h3').innerText = dictionary['p1-title'][currentLang];
+            document.querySelector('.product-grid .product-card:nth-child(1) .product-type').innerText = dictionary['p1-type'][currentLang];
+            document.querySelector('.product-grid .product-card:nth-child(1) .btn-recall').setAttribute('onclick', dictionary['p1-recall'][currentLang]);
+            
+            // Produit 2
+            document.querySelector('.product-grid .product-card:nth-child(2) h3').innerText = dictionary['p2-title'][currentLang];
+            document.querySelector('.product-grid .product-card:nth-child(2) .product-type').innerText = dictionary['p2-type'][currentLang];
+            document.querySelector('.product-grid .product-card:nth-child(2) .btn-recall').setAttribute('onclick', dictionary['p2-recall'][currentLang]);
+            
+            // Produit 3
+            document.querySelector('.product-grid .product-card:nth-child(3) h3').innerText = dictionary['p3-title'][currentLang];
+            document.querySelector('.product-grid .product-card:nth-child(3) .product-type').innerText = dictionary['p3-type'][currentLang];
+            document.querySelector('.product-grid .product-card:nth-child(3) .btn-recall').setAttribute('onclick', dictionary['p3-recall'][currentLang]);
+            
+            // Éléments génériques partagés de la grille produit
+            document.querySelectorAll('.stock-status').forEach(el => el.innerText = dictionary['prod-stock'][currentLang]);
+            document.querySelectorAll('.btn-recall').forEach(el => el.innerText = dictionary['prod-btn'][currentLang]);
+            
+            // Boîte modale
+            document.querySelector('.modal-box p').innerText = dictionary['modal-p'][currentLang];
+            document.getElementById('recall-email').setAttribute('placeholder', dictionary['modal-ph'][currentLang]);
+            document.querySelector('.btn-submit').innerText = dictionary['modal-btn'][currentLang];
+            
+            // Liens footer & Copyright
+            document.querySelector('.footer-links a:nth-child(1)').innerText = dictionary['f-link1'][currentLang];
+            document.querySelector('.footer-links a:nth-child(2)').innerText = dictionary['f-link2'][currentLang];
+            document.querySelector('.footer-links a:nth-child(3)').innerText = dictionary['f-link3'][currentLang];
+            document.querySelector('.footer-links a:nth-child(4)').innerText = dictionary['f-link4'][currentLang];
+            document.querySelector('.copyright').innerHTML = dictionary['f-copy'][currentLang];
         }
     </script>
 </body>
