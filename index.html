@@ -150,7 +150,7 @@
         }
 
         /* Effet de soulignement uniquement pour les liens classiques (pas le sélecteur de langue) */
-        nav ul li:not(.lang-switch) a::after {
+        nav ul li:not(.lang-selector-container) a::after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -162,7 +162,7 @@
             transform: translateX(-50%);
         }
 
-        nav ul li:not(.lang-switch) a:hover::after {
+        nav ul li:not(.lang-selector-container) a:hover::after {
             width: 100%;
         }
 
@@ -171,31 +171,51 @@
             transform: translateY(-1px);
         }
 
-        /* --- STYLE SPÉCIFIQUE BOUTON SÉLECTEUR DE LANGUE --- */
-        .lang-switch-container {
-            display: flex;
-            gap: 10px;
+        /* --- STYLE DU SÉLECTEUR DE LANGUE HARMONISÉ --- */
+        .lang-selector-container {
+            display: inline-block;
         }
 
-        .lang-switch a {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            padding: 6px 12px !important;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 20px;
+        .lang-select {
+            font-family: var(--font-sans);
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            color: #fff;
             background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 6px 28px 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            outline: none;
             transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            /* Flèche personnalisée minimaliste blanche */
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M0 3l5 5 5-5z' fill='%23fff'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
         }
 
-        header.scrolled .lang-switch a {
+        /* Changement de couleur dynamique du sélecteur au défilement */
+        header.scrolled .lang-select {
+            color: var(--dark-color);
             border-color: rgba(74, 66, 56, 0.2);
+            /* Flèche personnalisée en brun foncé */
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M0 3l5 5 5-5z' fill='%234a4238'/></svg>");
         }
 
-        .lang-switch a:hover {
+        .lang-select:hover {
             border-color: var(--primary-color) !important;
             background-color: rgba(197, 168, 128, 0.1);
+        }
+
+        /* Style des options internes du menu déroulant */
+        .lang-select option {
+            background-color: var(--bg-color);
+            color: var(--dark-color);
+            font-family: var(--font-sans);
+            letter-spacing: 1px;
         }
 
         /* --- HERO SECTION AVEC VIDEO --- */
@@ -610,7 +630,7 @@
             margin-bottom: 25px;
         }
 
-        .modal-form input[type="email"] {
+        .modal-box form input[type="email"] {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #dcd1c4;
@@ -625,7 +645,7 @@
             -webkit-appearance: none;
         }
 
-        .modal-form input[type="email"]:focus {
+        .modal-box form input[type="email"]:focus {
             border-color: var(--primary-color);
         }
 
@@ -769,13 +789,13 @@
                 letter-spacing: 1.5px;
             }
 
-            .lang-switch-container {
-                gap: 6px;
-            }
-
-            .lang-switch a {
-                padding: 5px 10px !important;
-                font-size: 10px;
+            /* Adaptation mobile du sélecteur */
+            header .lang-select {
+                color: var(--dark-color);
+                border-color: rgba(74, 66, 56, 0.2);
+                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M0 3l5 5 5-5z' fill='%234a4238'/></svg>");
+                padding: 5px 22px 5px 10px;
+                font-size: 11px;
             }
 
             .hero-content {
@@ -839,9 +859,12 @@
                 <li><a href="#histoire">L'Histoire</a></li>
                 <li><a href="#collection">Collection</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li class="lang-switch-container">
-                    <span class="lang-switch"><a id="btn-lang-1" onclick="switchLanguage('en')">🌐 EN</a></span>
-                    <span class="lang-switch"><a id="btn-lang-2" onclick="switchLanguage('de')">🌐 DE</a></span>
+                <li class="lang-selector-container">
+                    <select class="lang-select" id="lang-select" onchange="switchLanguage(this.value)">
+                        <option value="fr">🌐 FR</option>
+                        <option value="en">🌐 EN</option>
+                        <option value="de">🌐 DE</option>
+                    </select>
                 </li>
             </ul>
         </nav>
@@ -1080,7 +1103,7 @@
             
             'p1-title': { fr: "L'Élixir Doré", en: 'The Golden Elixir', de: 'Das Goldene Elixier' },
             'p1-type': { fr: 'Huile de soin régénérante', en: 'Regenerating care oil', de: 'Regenerierendes Pflegeöl' },
-            'p1-recall': { fr: "openRecallModal('L\\'Élixir Doré')", en: "openRecallModal('The Golden Elixir')", de: "openRecallModal('Das Goldene Elixier')" },
+            'p1-recall': { fr: "openRecallModal('L\'Élixir Doré')", en: "openRecallModal('The Golden Elixir')", de: "openRecallModal('Das Goldene Elixier')" },
             
             'p2-title': { fr: 'Crème de Soie', en: 'Silk Cream', de: 'Seidencreme' },
             'p2-type': { fr: 'Soin hydratant absolu', en: 'Absolute moisturizing care', de: 'Absolute Feuchtigkeitspflege' },
@@ -1105,30 +1128,10 @@
         };
 
         function switchLanguage(targetLang) {
-            // Si l'utilisateur clique sur la langue déjà active, on rebascule en Français
-            if (currentLang === targetLang) {
-                currentLang = 'fr';
-            } else {
-                currentLang = targetLang;
-            }
-            
+            currentLang = targetLang;
             document.documentElement.lang = currentLang;
 
-            // 1. Mise à jour des boutons du menu de navigation pour refléter l'état
-            const btn1 = document.getElementById('btn-lang-1');
-            const btn2 = document.getElementById('btn-lang-2');
-            if (currentLang === 'fr') {
-                btn1.innerText = '🌐 EN';
-                btn2.innerText = '🌐 DE';
-            } else if (currentLang === 'en') {
-                btn1.innerText = '🌐 FR';
-                btn2.innerText = '🌐 DE';
-            } else if (currentLang === 'de') {
-                btn1.innerText = '🌐 EN';
-                btn2.innerText = '🌐 FR';
-            }
-
-            // 2. Application instantanée de toutes les traductions via sélecteurs ciblés
+            // Application instantanée et transparente de toutes les traductions via sélecteurs
             document.querySelector('title').innerText = dictionary['title'][currentLang];
             document.querySelector('nav ul li:nth-child(1) a').innerText = dictionary['nav-home'][currentLang];
             document.querySelector('nav ul li:nth-child(2) a').innerText = dictionary['nav-story'][currentLang];
