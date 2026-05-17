@@ -995,25 +995,32 @@
             }
         });
 
-        /* --- 6. SÉCURITÉ ABSOLUE FORCE-PLAY INTERACTIVE CORRIGÉE --- */
+        /* --- 6. SÉCURITÉ AUTOPLAY & ACTIVATION DU SON AU PREMIER CLIC --- */
         function forcePlayVideo() {
             const video = document.getElementById('hero-video');
             if (video) {
-                video.muted = true;
+                // Obligatoire pour contourner le blocage du navigateur à l'ouverture
+                video.muted = true; 
                 video.play().catch(err => {
-                    console.log("En attente d'interaction pour l'autoplay.");
+                    console.log("Lecture en attente...");
                 });
             }
         }
 
-        // Lancement immédiat dès que le DOM est analysé
+        function activateAudio() {
+            const video = document.getElementById('hero-video');
+            if (video) {
+                video.muted = false; // Le son s'active !
+            }
+        }
+
+        // Lance la vidéo en silence dès le chargement
         window.addEventListener('DOMContentLoaded', forcePlayVideo);
-        // Lancement au chargement complet des ressources externes
         window.addEventListener('load', forcePlayVideo);
-        // Secours absolu : si le navigateur bloque toujours, la vidéo démarre au tout premier mouvement/clic
-        window.addEventListener('click', forcePlayVideo, { once: true });
-        window.addEventListener('touchstart', forcePlayVideo, { once: true });
-        window.addEventListener('scroll', forcePlayVideo, { once: true });
+        
+        // Active le son à la seconde où l'utilisateur clique n'importe où sur la page
+        window.addEventListener('click', activateAudio, { once: true });
+        window.addEventListener('touchstart', activateAudio, { once: true });
     </script>
 </body>
 </html>
