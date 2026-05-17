@@ -149,7 +149,8 @@
             color: var(--dark-color);
         }
 
-        nav ul li a::after {
+        /* Effet de soulignement uniquement pour les liens classiques (pas le sélecteur de langue) */
+        nav ul li:not(.lang-switch) a::after {
             content: '';
             position: absolute;
             bottom: 0;
@@ -161,7 +162,7 @@
             transform: translateX(-50%);
         }
 
-        nav ul li a:hover::after {
+        nav ul li:not(.lang-switch) a:hover::after {
             width: 100%;
         }
 
@@ -170,12 +171,26 @@
             transform: translateY(-1px);
         }
 
-        /* Style spécifique pour le bouton de langue */
+        /* --- STYLE SPÉCIFIQUE BOUTON SÉLECTEUR DE LANGUE --- */
         .lang-switch a {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             cursor: pointer;
+            padding: 6px 12px !important;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled .lang-switch a {
+            border-color: rgba(74, 66, 56, 0.2);
+        }
+
+        .lang-switch a:hover {
+            border-color: var(--primary-color) !important;
+            background-color: rgba(197, 168, 128, 0.1);
         }
 
         /* --- HERO SECTION AVEC VIDEO & EFFET DE PRONFONDEUR --- */
@@ -749,6 +764,11 @@
                 font-size: 11px;
                 color: var(--dark-color);
                 letter-spacing: 1.5px;
+            }
+
+            .lang-switch a {
+                padding: 5px 10px !important;
+                font-size: 10px;
             }
 
             .hero-content {
