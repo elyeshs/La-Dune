@@ -390,16 +390,12 @@ video::-webkit-media-controls-start-playback-button {
     animation: fadeInSimple 1.5s 1.2s ease forwards;
 }
 
-@keyframes fadeInSimple {
-    to { opacity: 1; }
-}
-
 /* --- BOUTON AUDIO --- */
 .audio-toggle {
     position: absolute;
     bottom: 40px;
     right: 50px;
-    z-index: 9999;
+    z-index: 999;
     font-family: var(--font-sans);
     font-size: 10px;
     font-weight: 500;
@@ -507,7 +503,6 @@ h2::after {
     width: 50%;
     height: 1px;
     background-color: var(--primary-color);
-    transition: width 0.8s ease;
 }
 
 .about-text {
@@ -523,7 +518,6 @@ h2::after {
 .section-products {
     padding: 80px 50px 120px 50px;
     background-color: rgba(245, 238, 228, 0.4);
-    overflow: hidden;
 }
 
 .section-title-center {
