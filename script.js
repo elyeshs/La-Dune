@@ -112,7 +112,23 @@ privacyModal.addEventListener('click', (e) => {
     if (e.target === privacyModal) { closePrivacyModal(); }
 });
 
-/* --- 6. GESTION DU SON ET DE L'AUTOPLAY --- */
+/* --- 5C. GESTION DE LA MODALE MENTIONS LÉGALES --- */
+const legalModal = document.getElementById('legal-modal');
+
+function openLegalModal(event) {
+    if(event) event.preventDefault();
+    legalModal.classList.add('active');
+}
+
+function closeLegalModal() {
+    legalModal.classList.remove('active');
+}
+
+legalModal.addEventListener('click', (e) => {
+    if (e.target === legalModal) { closeLegalModal(); }
+});
+
+/* --- 6. GESTION DU SON AND DE L'AUTOPLAY --- */
 const video = document.getElementById('hero-video');
 const audioToggleBtn = document.getElementById('audio-toggle');
 
@@ -229,12 +245,23 @@ const dictionary = {
     'privacy-title': { fr: 'Politique de Confidentialité', en: 'Privacy Policy', de: 'Datenschutzerklärung' },
     'privacy-intro': { fr: 'Conformément au Règlement Général sur la Protection des Données (RGPD) et aux réglementations européennes, nous accordons une importance capitale à la confidentialité de vos informations.', en: 'In accordance with the General Data Protection Regulation (GDPR) and European regulations, we attach paramount importance to the confidentiality of your information.', de: 'In Übereinstimmung mit der Datenschutz-Grundverordnung (DSGVO) und den europäischen Vorschriften legen wir höchsten Wert auf die Vertraulichkeit Ihrer Informationen.' },
     'privacy-h1': { fr: '1. Collecte des données', en: '1. Data Collection', de: '1. Datenerhebung' },
-    'privacy-p1': { fr: 'Nous collectons uniquement votre adresse e-mail de manière volontaire lorsque vous demandez à être averti d’un réapprovisionnement.', en: 'We only collect your email address on a voluntary basis when you request to be notified of a restock.', de: 'Wir erfassen Ihre E-Mail-Adresse ausschließlich auf freiwilliger Basis, wenn Sie benachrichtigt werden möchten, sobald ein produit wieder auf Lager ist.' },
+    'privacy-p1': { fr: 'Nous collectons uniquement votre adresse e-mail de manière volontaire lorsque vous demandez à être averti d’un réapprovisionnement.', en: 'We only collect your email address on a voluntary basis when you request to be notified of a restock.', de: 'Wir erfassen Ihre E-Mail-Adresse ausschließlich auf freiwilliger Basis, wenn Sie benachrichtigt werden möchten, sobald ein produkt wieder auf Lager ist.' },
     'privacy-h2': { fr: '2. Utilisation et Confidentialité', en: '2. Use and Confidentiality', de: '2. Nutzung und Vertraulichkeit' },
     'privacy-p2': { fr: 'Cette adresse est exclusivement réservée à l’envoi de la notification de stock demandée. Elle ne sera jamais vendue, échangée ou partagée avec des tiers.', en: 'This address is exclusively reserved for sending the requested stock notification. It will never be sold, exchanged, or shared with third parties.', de: 'Diese Adresse ist ausschließlich für den Versand der angeforderten Bestandsbenachrichtigung reserviert. Sie wird niemals verkauft, getauscht oder an Dritte weitergegeben.' },
     'privacy-h3': { fr: '3. Vos Droits (RGPD)', en: '3. Your Rights (GDPR)', de: '3. Ihre Rechte (DSGVO)' },
     'privacy-p3': { fr: 'Vous bénéficiez d’un droit d’accès, de rectification, de limitation et de suppression de vos données personnelles. Vous pouvez retirer votre consentement à tout moment en nous contactant.', en: 'You have the right to access, rectify, limit, and erase your personal data. You can withdraw your consent at any time by contacting us.', de: 'Sie haben das Recht auf Auskunft, Berichtigung, Einschränkung und Löschung Ihrer personenbezogenen Daten. Sie können Ihre Einwilligung jederzeit widerrufen, indem Sie uns kontaktieren.' },
     'privacy-btn': { fr: 'Fermer', en: 'Close', de: 'Schließen' },
+
+    /* Textes des Mentions Légales (Impressum conforme) */
+    'legal-title': { fr: 'Mentions Légales', en: 'Legal Notice', de: 'Impressum' },
+    'legal-intro': { fr: 'Conformément aux obligations légales en vigueur, voici les informations relatives à l\'éditeur et au responsable de la publication du présent site.', en: 'In accordance with current legal obligations, here is the information regarding the publisher and the publication manager of this site.', de: 'In Übereinstimmung mit den geltenden gesetzlichen Verpflichtungen finden Sie hier die Informationen zum Herausgeber und zum Verantwortlichen für die Veröffentlichung dieser Website.' },
+    'legal-h1': { fr: '1. Édition du site', en: '1. Website Edition', de: '1. Website-Herausgabe' },
+    'legal-p1': { fr: 'Le site internet est édité par LA DUNE SIGNATURE, entreprise de haute manufacture artisanale en cours de constitution, basée dans la région d\'Oberhausen, Allemagne.', en: 'The website is published by LA DUNE SIGNATURE, a high-end artisanal manufacturing company in process of incorporation, based in the Oberhausen area, Germany.', de: 'Die Website wird von LA DUNE SIGNATURE herausgegeben, einem Unternehmen für hochwertige handwerkliche Herstellung in Gründung mit Sitz in Oberhausen, Deutschland.' },
+    'legal-h2': { fr: '2. Contact & Responsabilité', en: '2. Contact & Responsibility', de: '2. Kontakt & Verantwortung' },
+    'legal-p2': { fr: 'Pour toute question ou réclamation relative au contenu de ce site, vous pouvez nous contacter directement via notre section de contact dédiée. Le directeur de la publication est le représentant légal de LA DUNE SIGNATURE.', en: 'For any questions or complaints regarding the content of this site, you can contact us directly through our dedicated contact section. The publication manager is the legal representative of LA DUNE SIGNATURE.', de: 'Bei Fragen oder Beschwerden zum Inhalt dieser Website können Sie uns direkt über unseren Kontaktbereich kontaktieren. Der Leiter der Veröffentlichung ist der gesetzliche Vertreter von LA DUNE SIGNATURE.' },
+    'legal-h3': { fr: '3. Propriété intellectuelle & Hébergement', en: '3. Intellectual Property & Hosting', de: '3. Geistiges Eigentum & Hosting' },
+    'legal-p3': { fr: 'Toute reproduction, représentation, modification ou adaptation de tout ou partie des éléments de ce site (textes, vidéos, charte graphique) est strictement interdite sans autorisation préalable. Ce site est hébergé de manière sécurisée et locale à des fins de développement.', en: 'Any reproduction, representation, modification, or adaptation of all or part of the elements of this site (texts, videos, graphic charter) is strictly prohibited without prior authorization. This site is hosted securely and locally for development purposes.', de: 'Jegliche Vervielfältigung, Darstellung, Änderung oder Anpassung aller oder eines Teils der Elemente dieser Website (Texte, Videos, Grafikcharta) ist ohne vorherige Genehmigung strengstens untersagt. Diese Website wird zu Entwicklungszwecken sicher und lokal gehostet.' },
+    'legal-btn': { fr: 'Fermer', en: 'Close', de: 'Schließen' },
 
     'f-link1': { fr: 'Mentions Légales', en: 'Legal Notice', de: 'Impressum' },
     'f-link2': { fr: 'Politique de Confidentialité', en: 'Privacy Policy', de: 'Datenschutzerklärung' },
@@ -297,6 +324,17 @@ function switchLanguage(targetLang) {
     document.getElementById('privacy-modal-h3').innerText = dictionary['privacy-h3'][currentLang];
     document.getElementById('privacy-modal-p3').innerText = dictionary['privacy-p3'][currentLang];
     document.getElementById('privacy-modal-btn').innerText = dictionary['privacy-btn'][currentLang];
+
+    /* Traduction dynamique de la modale des mentions légales */
+    document.getElementById('legal-modal-title').innerText = dictionary['legal-title'][currentLang];
+    document.getElementById('legal-modal-intro').innerText = dictionary['legal-intro'][currentLang];
+    document.getElementById('legal-modal-h1').innerText = dictionary['legal-h1'][currentLang];
+    document.getElementById('legal-modal-p1').innerText = dictionary['legal-p1'][currentLang];
+    document.getElementById('legal-modal-h2').innerText = dictionary['legal-h2'][currentLang];
+    document.getElementById('legal-modal-p2').innerText = dictionary['legal-p2'][currentLang];
+    document.getElementById('legal-modal-h3').innerText = dictionary['legal-h3'][currentLang];
+    document.getElementById('legal-modal-p3').innerText = dictionary['legal-p3'][currentLang];
+    document.getElementById('legal-modal-btn').innerText = dictionary['legal-btn'][currentLang];
 
     document.querySelector('.footer-links a:nth-child(1)').innerText = dictionary['f-link1'][currentLang];
     document.querySelector('.footer-links a:nth-child(2)').innerText = dictionary['f-link2'][currentLang];
