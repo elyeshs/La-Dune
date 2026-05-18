@@ -113,13 +113,30 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="privacy-modal">
+        <div class="modal-box modal-box-large">
+            <span class="modal-close" onclick="closePrivacyModal()">&times;</span>
+            <h4 id="privacy-modal-title">Politique de Confidentialité</h4>
+            <div class="privacy-modal-content">
+                <p id="privacy-modal-intro">Conformément au Règlement Général sur la Protection des Données (RGPD) et aux réglementations européennes, nous accordons une importance capitale à la confidentialité de vos informations.</p>
+                <h5 id="privacy-modal-h1">1. Collecte des données</h5>
+                <p id="privacy-modal-p1">Nous collectons uniquement votre adresse e-mail de manière volontaire lorsque vous demandez à être averti d’un réapprovisionnement.</p>
+                <h5 id="privacy-modal-h2">2. Utilisation et Confidentialité</h5>
+                <p id="privacy-modal-p2">Cette adresse est exclusivement réservée à l’envoi de la notification de stock demandée. Elle ne sera jamais vendue, échangée ou partagée avec des tiers.</p>
+                <h5 id="privacy-modal-h3">3. Vos Droits (RGPD)</h5>
+                <p id="privacy-modal-p3">Vous bénéficiez d’un droit d’accès, de rectification, de limitation et de suppression de vos données personnelles. Vous pouvez retirer votre consentement à tout moment en nous contactant.</p>
+            </div>
+            <button class="btn-submit" onclick="closePrivacyModal()" id="privacy-modal-btn" style="margin-top: 20px;">Fermer</button>
+        </div>
+    </div>
+
     <footer id="contact">
         <div class="footer-logo">La Dune</div>
         <div class="footer-logo-sub">Signature</div>
         
         <div class="footer-links">
             <a href="#">Mentions Légales</a>
-            <a href="#">Politique de Confidentialité</a>
+            <a href="#" id="footer-privacy-link" onclick="openPrivacyModal(event)">Politique de Confidentialité</a>
             <a href="#">Boutique</a>
             <a href="#">Suivez-nous</a>
         </div>
