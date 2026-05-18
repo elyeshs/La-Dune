@@ -3,38 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Dune Signature | Haute Pâtisserie</title>
+    <title>La Dune Signature | Cosmétique Élégante & Sobre</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&family=Playfair+Display+SC&family=Alex+Brush&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="logo">La Dune <span class="signature">Signature</span></div>
-        
-        <div class="language-selector">
-            <button class="lang-btn active" data-lang="fr">FR</button>
-            <button class="lang-btn" data-lang="en">EN</button>
-            <button class="lang-btn" data-lang="de">DE</button>
+    <header id="main-header">
+        <div class="logo-container">
+            <div class="logo-title">La Dune</div>
+            <div class="logo-subtitle">Signature</div>
         </div>
+        <nav>
+            <ul>
+                <li><a href="#hero">Accueil</a></li>
+                <li><a href="#histoire">L'Histoire</a></li>
+                <li><a href="#collection">Collection</a></li>
+                <li><a href="#contact">Contact</a></li>
+                
+                <li class="lang-selector-container" id="lang-container">
+                    <div class="lang-custom-trigger" onclick="toggleLangMenu(event)">
+                        🌐 <span id="current-lang-label">FR</span>
+                    </div>
+                    <ul class="lang-custom-menu">
+                        <li id="opt-fr" class="selected" onclick="switchLanguage('fr')">FR</li>
+                        <li id="opt-en" onclick="switchLanguage('en')">EN</li>
+                        <li id="opt-de" onclick="switchLanguage('de')">DE</li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
     </header>
 
-    <section class="hero">
-        <div class="video-container">
-            <video autoplay loop muted playsinline id="hero-video">
-                <source src="assets/ambiance.mp4" type="video/mp4">
-                Votre navigateur ne supporte pas la lecture de vidéos.
-            </video>
-            <div class="video-overlay"></div>
-        </div>
+    <section class="hero" id="hero">
+        <video class="hero-video" id="hero-video" autoplay loop muted playsinline preload="auto">
+            <source src="Dune Prototype 1.mp4" type="video/mp4">
+            Votre navigateur ne supporte pas la lecture de cette vidéo.
+        </video>
         
-        <div class="hero-content">
-            <h1 data-translate="hero-title">L'Élégance de la Haute Pâtisserie</h1>
-            <p data-translate="hero-subtitle">Des créations d'exception façonnées à la main à Oberhausen.</p>
-            <a href="#collections" class="btn-primary" data-translate="hero-btn">Découvrir nos créations</a>
+        <div class="hero-overlay"></div>
+        
+        <div class="hero-content" id="hero-content">
+            <div class="hero-dune-icon"></div>
+            <h1 id="animated-title">La Dune</h1>
+            <span class="signature">Signature</span>
+            <p>L'essentiel de la beauté pure, inspiré par la nature</p>
+            <a href="#collection" class="btn-gold">Découvrir la collection</a>
+        </div>
+
+        <div class="audio-toggle" id="audio-toggle" onclick="toggleAudio(event)">
+            <span class="audio-icon">MUTE</span>
         </div>
     </section>
 
-    <section id="collections" class="collections">
+    <section class="section-about fade-in" id="histoire">
+        <span class="section-tag">L'Équilibre Pure</span>
+        <h2>Notre Philosophie</h2>
+        <p class="about-text">
+            "Née du mouvement intemporel du vent sur le sable, La Dune Signature incarne des rituels cosmétiques épurés. Des textures fluides, des formulations d'une pureté absolue, créées pour révéler l'éclat authentique et sobre de votre peau."
+        </p>
+        <div class="hero-dune-icon" style="transform: scale(0.7); margin-top: 20px;"></div>
+    </section>
+
+    <section class="section-products" id="collection">
+        <div class="section-title-center fade-in">
+            <span class="section-tag">Édition Limitée</span>
+            <h2>La Collection Signature</h2>
+        </div>
+        
+        <div class="product-grid">
+            <div class="product-card fade-in">
+                <div class="product-image-placeholder"></div>
+                <h3>L'Élixir Doré</h3>
+                <div class="product-type">Huile de soin régénérante</div>
+                <span class="stock-status">Rupture de stock</span>
+                <button class="btn-recall" onclick="openRecallModal('L\'Élixir Doré')">Rappelez-moi</button>
+            </div>
+            
+            <div class="product-card fade-in">
+                <div class="product-image-placeholder"></div>
+                <h3>Crème de Soie</h3>
+                <div class="product-type">Soin hydratant absolu</div>
+                <span class="stock-status">Rupture de stock</span>
+                <button class="btn-recall" onclick="openRecallModal('Crème de Soie')">Rappelez-moi</button>
+            </div>
+            
+            <div class="product-card fade-in">
+                <div class="product-image-placeholder"></div>
+                <h3>Brume de Sable</h3>
+                <div class="product-type">Lotion tonique minérale</div>
+                <span class="stock-status">Rupture de stock</span>
+                <button class="btn-recall" onclick="openRecallModal('Brume de Sable')">Rappelez-moi</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal-overlay" id="recall-modal">
+        <div class="modal-box">
+            <span class="modal-close" onclick="closeRecallModal()">&times;</span>
+            <h4 id="modal-product-name">Rappelez-moi</h4>
+            <p>Inscrivez votre e-mail pour recevoir une notification prioritaire dès que ce produit sera de nouveau disponible.</p>
+            <form class="modal-form" onsubmit="handleRecallSubmit(event)">
+                <input type="email" id="recall-email" placeholder="Votre adresse e-mail" required>
+                <button type="submit" class="btn-submit">M'avertir de la disponibilité</button>
+            </form>
+        </div>
+    </div>
+
+    <footer id="contact">
+        <div class="footer-logo">La Dune</div>
+        <div class="footer-logo-sub">Signature</div>
+        
+        <div class="footer-links">
+            <a href="#">Mentions Légales</a>
+            <a href="#">Politique de Confidentialité</a>
+            <a href="#">Boutique</a>
+            <a href="#">Suivez-nous</a>
+        </div>
+        
+        <div class="divider"></div>
+        <div class="copyright">
+            &copy; 2026 LA DUNE SIGNATURE — LRH. TOUS DROITS RÉSERVÉS.
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>    <section id="collections" class="collections">
         <h2 class="section-title" data-translate="products-title">Nos Collections Signature</h2>
         
         <div class="products-grid">
