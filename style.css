@@ -394,7 +394,7 @@ video::-webkit-media-controls-start-playback-button {
     to { opacity: 1; }
 }
 
-/* --- BOUTON AUDIO REHAUSSÉ --- */
+/* --- BOUTON AUDIO --- */
 .audio-toggle {
     position: absolute;
     bottom: 40px;
@@ -667,7 +667,6 @@ h2::after {
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Adaptation pour grande modale (Ex: Politique de confidentialité) */
 .modal-box-large {
     max-width: 600px;
     text-align: left;
