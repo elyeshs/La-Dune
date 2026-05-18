@@ -50,22 +50,22 @@ window.addEventListener('scroll', () => {
 
 /* --- 4. INTERSECTION OBSERVER POUR APPARITIONS --- */
 const fadeElements = document.querySelectorAll('.fade-in');
-const appearanceOptions = { threshold: 0.05, rootMargin: "0px 0px -20px 0px" };
-
 const appearanceObserver = new IntersectionObserver(function(entries, observer) {
     entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         entry.target.classList.add('appear');
         observer.unobserve(entry.target);
     });
-}, appearanceOptions);
+}, { threshold: 0.05, rootMargin: "0px 0px -20px 0px" });
 
 fadeElements.forEach(element => { appearanceObserver.observe(element); });
 
-/* --- 5. GESTION DE LA BOÎTE MODALE RAPPELEZ-MOI --- */
+/* --- 5. GESTION DES BOÎTES MODALES (OPTIMISÉE SANS DOUBLONS) --- */
 const modal = document.getElementById('recall-modal');
 const modalProductName = document.getElementById('modal-product-name');
 const recallEmailInput = document.getElementById('recall-email');
+const privacyModal = document.getElementById('privacy-modal');
+const legalModal = document.getElementById('legal-modal');
 
 function openRecallModal(productName) {
     modalProductName.innerText = productName;
@@ -92,13 +92,6 @@ function handleRecallSubmit(event) {
     closeRecallModal();
 }
 
-modal.addEventListener('click', (e) => {
-    if (e.target === modal) { closeRecallModal(); }
-});
-
-/* --- 5B. GESTION DE LA MODALE POLITIQUE DE CONFIDENTIALITÉ --- */
-const privacyModal = document.getElementById('privacy-modal');
-
 function openPrivacyModal(event) {
     if(event) event.preventDefault();
     privacyModal.classList.add('active');
@@ -107,13 +100,6 @@ function openPrivacyModal(event) {
 function closePrivacyModal() {
     privacyModal.classList.remove('active');
 }
-
-privacyModal.addEventListener('click', (e) => {
-    if (e.target === privacyModal) { closePrivacyModal(); }
-});
-
-/* --- 5C. GESTION DE LA MODALE MENTIONS LÉGALES --- */
-const legalModal = document.getElementById('legal-modal');
 
 function openLegalModal(event) {
     if(event) event.preventDefault();
@@ -124,8 +110,11 @@ function closeLegalModal() {
     legalModal.classList.remove('active');
 }
 
-legalModal.addEventListener('click', (e) => {
-    if (e.target === legalModal) { closeLegalModal(); }
+// Fermeture globale au clic à l'extérieur des modales
+window.addEventListener('click', (e) => {
+    if (e.target === modal) closeRecallModal();
+    if (e.target === privacyModal) closePrivacyModal();
+    if (e.target === legalModal) closeLegalModal();
 });
 
 /* --- 6. GESTION DU SON AND DE L'AUTOPLAY --- */
@@ -137,7 +126,7 @@ function forcePlayVideo() {
         video.muted = true; 
         let playPromise = video.play();
         if (playPromise !== undefined) {
-            playPromise.catch(error => { console.log("Attente interaction utilisateur."); });
+            playPromise.catch(() => { console.log("Attente interaction utilisateur."); });
         }
     }
 }
@@ -187,7 +176,6 @@ window.addEventListener('DOMContentLoaded', () => {
     forcePlayVideo();
     updateAudioButtonVisuals();
 });
-window.addEventListener('load', forcePlayVideo);
 
 document.body.addEventListener('click', autoUnmuteOnFirstInteraction, { once: true });
 document.body.addEventListener('touchstart', autoUnmuteOnFirstInteraction, { once: true });
@@ -241,7 +229,6 @@ const dictionary = {
     'modal-ph': { fr: 'Votre adresse e-mail', en: 'Your email address', de: 'Ihre E-Mail-Adresse' },
     'modal-btn': { fr: "M'avertir de la disponibilité", en: 'Notify me when available', de: 'Benachrichtigen, wenn verfügbar' },
     
-    /* Textes de la Politique de Confidentialité (Conforme RGPD) */
     'privacy-title': { fr: 'Politique de Confidentialité', en: 'Privacy Policy', de: 'Datenschutzerklärung' },
     'privacy-intro': { fr: 'Conformément au Règlement Général sur la Protection des Données (RGPD) et aux réglementations européennes, nous accordons une importance capitale à la confidentialité de vos informations.', en: 'In accordance with the General Data Protection Regulation (GDPR) and European regulations, we attach paramount importance to the confidentiality of your information.', de: 'In Übereinstimmung mit der Datenschutz-Grundverordnung (DSGVO) und den europäischen Vorschriften legen wir höchsten Wert auf die Vertraulichkeit Ihrer Informationen.' },
     'privacy-h1': { fr: '1. Collecte des données', en: '1. Data Collection', de: '1. Datenerhebung' },
@@ -252,15 +239,14 @@ const dictionary = {
     'privacy-p3': { fr: 'Vous bénéficiez d’un droit d’accès, de rectification, de limitation et de suppression de vos données personnelles. Vous pouvez retirer votre consentement à tout moment en nous contactant.', en: 'You have the right to access, rectify, limit, and erase your personal data. You can withdraw your consent at any time by contacting us.', de: 'Sie haben das Recht auf Auskunft, Berichtigung, Einschränkung und Löschung Ihrer personenbezogenen Daten. Sie können Ihre Einwilligung jederzeit widerrufen, indem Sie uns kontaktieren.' },
     'privacy-btn': { fr: 'Fermer', en: 'Close', de: 'Schließen' },
 
-    /* Textes des Mentions Légales (Impressum conforme) */
     'legal-title': { fr: 'Mentions Légales', en: 'Legal Notice', de: 'Impressum' },
-    'legal-intro': { fr: 'Conformément aux obligations légales en vigueur, voici les informations relatives à l\'éditeur et au responsable de la publication du présent site.', en: 'In accordance with current legal obligations, here is the information regarding the publisher and the publication manager of this site.', de: 'In Übereinstimmung mit den geltenden gesetzlichen Verpflichtungen finden Sie hier die Informationen zum Herausgeber und zum Verantwortlichen für die Veröffentlichung dieser Website.' },
-    'legal-h1': { fr: '1. Édition du site', en: '1. Website Edition', de: '1. Website-Herausgabe' },
-    'legal-p1': { fr: 'Le site internet est édité par LA DUNE SIGNATURE, entreprise de haute manufacture artisanale en cours de constitution, basée dans la région d\'Oberhausen, Allemagne.', en: 'The website is published by LA DUNE SIGNATURE, a high-end artisanal manufacturing company in process of incorporation, based in the Oberhausen area, Germany.', de: 'Die Website wird von LA DUNE SIGNATURE herausgegeben, einem Unternehmen für hochwertige handwerkliche Herstellung in Gründung mit Sitz in Oberhausen, Deutschland.' },
-    'legal-h2': { fr: '2. Contact & Responsabilité', en: '2. Contact & Responsibility', de: '2. Kontakt & Verantwortung' },
-    'legal-p2': { fr: 'Pour toute question ou réclamation relative au contenu de ce site, vous pouvez nous contacter directement via notre section de contact dédiée. Le directeur de la publication est le représentant légal de LA DUNE SIGNATURE.', en: 'For any questions or complaints regarding the content of this site, you can contact us directly through our dedicated contact section. The publication manager is the legal representative of LA DUNE SIGNATURE.', de: 'Bei Fragen oder Beschwerden zum Inhalt dieser Website können Sie uns direkt über unseren Kontaktbereich kontaktieren. Der Leiter der Veröffentlichung ist der gesetzliche Vertreter von LA DUNE SIGNATURE.' },
-    'legal-h3': { fr: '3. Propriété intellectuelle & Hébergement', en: '3. Intellectual Property & Hosting', de: '3. Geistiges Eigentum & Hosting' },
-    'legal-p3': { fr: 'Toute reproduction, représentation, modification ou adaptation de tout ou partie des éléments de ce site (textes, vidéos, charte graphique) est strictement interdite sans autorisation préalable. Ce site est hébergé de manière sécurisée et locale à des fins de développement.', en: 'Any reproduction, representation, modification, or adaptation of all or part of the elements of this site (texts, videos, graphic charter) is strictly prohibited without prior authorization. This site is hosted securely and locally for development purposes.', de: 'Jegliche Vervielfältigung, Darstellung, Änderung oder Anpassung aller oder eines Teils der Elemente dieser Website (Texte, Videos, Grafikcharta) ist ohne vorherige Genehmigung strengstens untersagt. Diese Website wird zu Entwicklungszwecken sicher und lokal gehostet.' },
+    'legal-intro': { fr: 'Informations obligatoires fournies conformément au § 5 du Digitale-Dienste-Gesetz (DDG) allemand.', en: 'Mandatory information provided in accordance with § 5 of the German Digital Services Act (DDG).', de: 'Pflichtangaben gemäß § 5 des Digitalen-Dienste-Gesetzes (DDG).' },
+    'legal-h1': { fr: '1. Éditeur du site & Contact', en: '1. Publisher & Contact', de: '1. Herausgeber & Kontakt' },
+    'legal-p1': { fr: 'LA DUNE SIGNATURE (i.G.)\nEntreprise de haute manufacture artisanale en cours de constitution.\nSiège social : Région d\'Oberhausen, Allemagne.\nReprésentant légal : Direction Générale\nE-mail : contact@ladunesignature.com', en: 'LA DUNE SIGNATURE (i.G.)\nHigh-end artisanal manufacturing company in process of incorporation.\nHeadquarters: Oberhausen Region, Germany.\nLegal Representative: General Management\nEmail: contact@ladunesignature.com', de: 'LA DUNE SIGNATURE (i.G.)\nUnternehmen für hochwertige handwerkliche Herstellung in Gründung.\nSitz des Unternehmens: Region Oberhausen, Deutschland.\nGesetzlicher Vertreter: Geschäftsführung\nE-Mail: contact@ladunesignature.com' },
+    'legal-h2': { fr: '2. Responsable éditorial', en: '2. Editorial Responsibility', de: '2. Verantwortlich für den Inhalt' },
+    'legal-p2': { fr: 'Responsable des contenus éditoriaux conformément au § 18 al. 2 du MStV (Medienstaatsvertrag) : Le représentant légal de LA DUNE SIGNATURE.', en: 'Responsible for editorial content in accordance with § 18 paragraph 2 of the MStV (Medienstaatsvertrag): The legal representative of LA DUNE SIGNATURE.', de: 'Verantwortlich für den journalistisch-redaktionellen Inhalt gemäß § 18 Abs. 2 MStV (Medienstaatsvertrag): Der gesetzliche Vertreter von LA DUNE SIGNATURE.' },
+    'legal-h3': { fr: '3. Règlement des litiges en ligne', en: '3. Online Dispute Resolution', de: '3. Online-Streitbeilegung' },
+    'legal-p3': { fr: 'La Commission européenne met à disposition une plateforme de règlement en ligne des litiges (OS). Nous ne sommes ni obligés ni disposés à participer à des procédures de règlement des litiges devant un conseil d\'arbitrage de la consommation.', en: 'The European Commission provides a platform for online dispute resolution (ODR). We are neither obliged nor willing to participate in dispute resolution proceedings before a consumer arbitration board.', de: 'Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit. Wir sind nicht bereit oder verpflichtet, an Streitbeilegerverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.' },
     'legal-btn': { fr: 'Fermer', en: 'Close', de: 'Schließen' },
 
     'f-link1': { fr: 'Mentions Légales', en: 'Legal Notice', de: 'Impressum' },
@@ -295,24 +281,25 @@ function switchLanguage(targetLang) {
     document.querySelector('.section-products .section-tag').innerText = dictionary['prod-tag'][currentLang];
     document.querySelector('.section-products h2').innerText = dictionary['prod-h2'][currentLang];
     
-    document.querySelector('.product-grid .product-card:nth-child(1) h3').innerText = dictionary['p1-title'][currentLang];
-    document.querySelector('.product-grid .product-card:nth-child(1) .product-type').innerText = dictionary['p1-type'][currentLang];
-    document.querySelector('.product-grid .product-card:nth-child(1) .btn-recall').setAttribute('onclick', dictionary['p1-recall'][currentLang]);
+    const pCards = document.querySelectorAll('.product-grid .product-card');
+    pCards[0].querySelector('h3').innerText = dictionary['p1-title'][currentLang];
+    pCards[0].querySelector('.product-type').innerText = dictionary['p1-type'][currentLang];
+    pCards[0].querySelector('.btn-recall').setAttribute('onclick', dictionary['p1-recall'][currentLang]);
     
-    document.querySelector('.product-grid .product-card:nth-child(2) h3').innerText = dictionary['p2-title'][currentLang];
-    document.querySelector('.product-grid .product-card:nth-child(2) .product-type').innerText = dictionary['p2-type'][currentLang];
-    document.querySelector('.product-grid .product-card:nth-child(2) .btn-recall').setAttribute('onclick', dictionary['p2-recall'][currentLang]);
+    pCards[1].querySelector('h3').innerText = dictionary['p2-title'][currentLang];
+    pCards[1].querySelector('.product-type').innerText = dictionary['p2-type'][currentLang];
+    pCards[1].querySelector('.btn-recall').setAttribute('onclick', dictionary['p2-recall'][currentLang]);
     
-    document.querySelector('.product-grid .product-card:nth-child(3) h3').innerText = dictionary['p3-title'][currentLang];
-    document.querySelector('.product-grid .product-card:nth-child(3) .product-type').innerText = dictionary['p3-type'][currentLang];
-    document.querySelector('.product-grid .product-card:nth-child(3) .btn-recall').setAttribute('onclick', dictionary['p3-recall'][currentLang]);
+    pCards[2].querySelector('h3').innerText = dictionary['p3-title'][currentLang];
+    pCards[2].querySelector('.product-type').innerText = dictionary['p3-type'][currentLang];
+    pCards[2].querySelector('.btn-recall').setAttribute('onclick', dictionary['p3-recall'][currentLang]);
     
     document.querySelectorAll('.stock-status').forEach(el => el.innerText = dictionary['prod-stock'][currentLang]);
     document.querySelectorAll('.btn-recall').forEach(el => el.innerText = dictionary['prod-btn'][currentLang]);
     
-    document.querySelector('.modal-box p').innerText = dictionary['modal-p'][currentLang];
+    document.getElementById('modal-product-p').innerText = dictionary['modal-p'][currentLang];
     document.getElementById('recall-email').setAttribute('placeholder', dictionary['modal-ph'][currentLang]);
-    document.querySelector('.btn-submit').innerText = dictionary['modal-btn'][currentLang];
+    document.getElementById('recall-modal-btn').innerText = dictionary['modal-btn'][currentLang];
     
     /* Traduction dynamique de la modale de confidentialité */
     document.getElementById('privacy-modal-title').innerText = dictionary['privacy-title'][currentLang];
@@ -329,18 +316,20 @@ function switchLanguage(targetLang) {
     document.getElementById('legal-modal-title').innerText = dictionary['legal-title'][currentLang];
     document.getElementById('legal-modal-intro').innerText = dictionary['legal-intro'][currentLang];
     document.getElementById('legal-modal-h1').innerText = dictionary['legal-h1'][currentLang];
-    document.getElementById('legal-modal-p1').innerText = dictionary['legal-p1'][currentLang];
-    document.getElementById('legal-modal-h2').innerText = dictionary['legal-h2'][currentLang];
+    
+    // Remplacement propre des retours à la ligne \n par des balises <br> pour la mise en forme
+    document.getElementById('legal-modal-p1').innerHTML = dictionary['legal-p1'][currentLang].replace(/\n/g, '<br>');
     document.getElementById('legal-modal-p2').innerText = dictionary['legal-p2'][currentLang];
     document.getElementById('legal-modal-h3').innerText = dictionary['legal-h3'][currentLang];
     document.getElementById('legal-modal-p3').innerText = dictionary['legal-p3'][currentLang];
     document.getElementById('legal-modal-btn').innerText = dictionary['legal-btn'][currentLang];
 
-    document.querySelector('.footer-links a:nth-child(1)').innerText = dictionary['f-link1'][currentLang];
-    document.querySelector('.footer-links a:nth-child(2)').innerText = dictionary['f-link2'][currentLang];
-    document.querySelector('.footer-links a:nth-child(3)').innerText = dictionary['f-link3'][currentLang];
-    document.querySelector('.footer-links a:nth-child(4)').innerText = dictionary['f-link4'][currentLang];
-    document.querySelector('.copyright').innerHTML = dictionary['f-copy'][currentLang];
+    const fLinks = document.querySelectorAll('.footer-links a');
+    fLinks[0].innerText = dictionary['f-link1'][currentLang];
+    fLinks[1].innerText = dictionary['f-link2'][currentLang];
+    fLinks[2].innerText = dictionary['f-link3'][currentLang];
+    fLinks[3].innerText = dictionary['f-link4'][currentLang];
+    document.getElementById('footer-copyright').innerHTML = dictionary['f-copy'][currentLang];
     
     updateAudioButtonVisuals();
 }
