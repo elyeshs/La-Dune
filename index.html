@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&family=Playfair+Display+SC&family=Alex+Brush&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -105,10 +104,10 @@
         <div class="modal-box">
             <span class="modal-close" onclick="closeRecallModal()">&times;</span>
             <h4 id="modal-product-name">Rappelez-moi</h4>
-            <p>Inscrivez votre e-mail pour recevoir une notification prioritaire dès que ce produit sera de nouveau disponible.</p>
+            <p id="modal-product-p">Inscrivez votre e-mail pour recevoir une notification prioritaire dès que ce produit sera de nouveau disponible.</p>
             <form class="modal-form" onsubmit="handleRecallSubmit(event)">
                 <input type="email" id="recall-email" placeholder="Votre adresse e-mail" required>
-                <button type="submit" class="btn-submit">M'avertir de la disponibilité</button>
+                <button type="submit" class="btn-submit" id="recall-modal-btn">M'avertir de la disponibilité</button>
             </form>
         </div>
     </div>
@@ -135,13 +134,13 @@
             <span class="modal-close" onclick="closeLegalModal()">&times;</span>
             <h4 id="legal-modal-title">Mentions Légales</h4>
             <div class="privacy-modal-content">
-                <p id="legal-modal-intro">Conformément aux obligations légales en vigueur, voici les informations relatives à l'éditeur et au responsable de la publication du présent site.</p>
-                <h5 id="legal-modal-h1">1. Édition du site</h5>
-                <p id="legal-modal-p1">Le site internet est édité par LA DUNE SIGNATURE, entreprise de haute manufacture artisanale en cours de constitution, basée dans la région d'Oberhausen, Allemagne.</p>
-                <h5 id="legal-modal-h2">2. Contact & Responsabilité</h5>
-                <p id="legal-modal-p2">Pour toute question ou réclamation relative au contenu de ce site, vous pouvez nous contacter directement via notre section de contact dédiée. Le directeur de la publication est le représentant légal de LA DUNE SIGNATURE.</p>
-                <h5 id="legal-modal-h3">3. Propriété intellectuelle & Hébergement</h5>
-                <p id="legal-modal-p3">Toute reproduction, représentation, modification ou adaptation de tout ou partie des éléments de ce site (textes, vidéos, charte graphique) est strictement interdite sans autorisation préalable. Ce site est hébergé de manière sécurisée et locale à des fins de développement.</p>
+                <p id="legal-modal-intro">Informations obligatoires fournies conformément au § 5 du Digitale-Dienste-Gesetz (DDG) allemand.</p>
+                <h5 id="legal-modal-h1">1. Éditeur du site & Contact</h5>
+                <p id="legal-modal-p1"><strong>LA DUNE SIGNATURE (i.G.)</strong><br>Entreprise de haute manufacture artisanale en cours de constitution.<br>Siège social : Région d'Oberhausen, Allemagne.<br>Représentant légal : Direction Générale<br>E-mail : contact@ladunesignature.com</p>
+                <h5 id="legal-modal-h2">2. Responsable éditorial</h5>
+                <p id="legal-modal-p2">Responsable des contenus éditoriaux conformément au § 18 al. 2 du MStV (Medienstaatsvertrag) : Le représentant légal de LA DUNE SIGNATURE.</p>
+                <h5 id="legal-modal-h3">3. Règlement des litiges en ligne</h5>
+                <p id="legal-modal-p3">La Commission européenne met à disposition une plateforme de règlement en ligne des litiges (OS). Nous ne sommes ni obligés ni disposés à participer à des procédures de règlement des litiges devant un conseil d'arbitrage de la consommation.</p>
             </div>
             <button class="btn-submit" onclick="closeLegalModal()" id="legal-modal-btn" style="margin-top: 20px;">Fermer</button>
         </div>
@@ -159,7 +158,7 @@
         </div>
         
         <div class="divider"></div>
-        <div class="copyright">
+        <div class="copyright" id="footer-copyright">
             &copy; 2026 LA DUNE SIGNATURE — LRH. TOUS DROITS RÉSERVÉS.
         </div>
     </footer>
