@@ -1,134 +1,40 @@
-// ==========================================================================
-// 1. GESTION DES TRADUCTIONS MULTILINGUES (FR, EN, DE)
-// ==========================================================================
-const translations = {
-    fr: {
-        "hero-title": "L'Élégance de la Haute Pâtisserie",
-        "hero-subtitle": "Des créations d'exception façonnées à la main à Oberhausen.",
-        "hero-btn": "Découvrir nos créations",
-        "products-title": "Nos Collections Signature",
-        "product1-desc": "Biscuits cuillère faits maison, crème diplomate légère à la vanille de Madagascar et fraises fraîches sélectionnées.",
-        "product2-desc": "Mousse au chocolat noir grand cru 70%, éclat de noisettes torréfiées et biscuit imbibé au cacao délicat.",
-        "notify-btn": "M'avertir de la disponibilité",
-        "modal-title": "Restez informé",
-        "modal-desc": "Inscrivez-vous pour recevoir une notification exclusive dès notre prochaine ouverture de commandes.",
-        "submit-btn": "Valider"
-    },
-    en: {
-        "hero-title": "The Elegance of Haute Pâtisserie",
-        "hero-subtitle": "Exceptional creations handcrafted in Oberhausen.",
-        "hero-btn": "Discover Our Creations",
-        "products-title": "Our Signature Collections",
-        "product1-desc": "Homemade ladyfingers, light Madagascar vanilla diplomat cream, and selected fresh strawberries.",
-        "product2-desc": "Intense 70% grand cru dark chocolate mousse, roasted hazelnut slivers, and delicate cocoa-soaked biscuit.",
-        "notify-btn": "Notify Me of Availability",
-        "modal-title": "Stay Informed",
-        "modal-desc": "Sign up to receive an exclusive notification as soon as our next order window opens.",
-        "submit-btn": "Submit"
-    },
-    de: {
-        "hero-title": "Die Eleganz der Haute Pâtisserie",
-        "hero-subtitle": "Außergewöhnliche Kreationen, handgefertigt in Oberhausen.",
-        "hero-btn": "Unsere Kreationen entdecken",
-        "products-title": "Unsere Signature-Kollektionen",
-        "product1-desc": "Hausgemachter Löffelbiskuit, leichte Diplomatencreme mit Madagaskar-Vanille und ausgewählten frischen Erdbeeren.",
-        "product2-desc": "Intensive Mousse aus 70% Grand-Cru-Dunkelschokolade, geröstete Haselnusssplitter und feiner Kakao-Biskuit.",
-        "notify-btn": "Bei Verfügbarkeit benachrichtigen",
-        "modal-title": "Bleiben Sie informiert",
-        "modal-desc": "Melden Sie sich an, um eine exklusive Benachrichtigung zu erhalten, sobald unser nächstes Bestellfenster öffnet.",
-        "submit-btn": "Bestätigen"
-    }
-};
+/* --- 1. SÉPARATION LETTRE PAR LETTRE DU TITRE --- */
+const titleContainer = document.getElementById('animated-title');
+const text = titleContainer.innerText;
+titleContainer.innerHTML = '';
+[...text].forEach((letter, index) => {
+    const span = document.createElement('span');
+    span.innerText = letter === ' ' ? '\u00A0' : letter;
+    span.style.animationDelay = `${index * 0.1}s`;
+    titleContainer.appendChild(span);
+});
 
-const langButtons = document.querySelectorAll(".lang-btn");
-
-langButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        const lang = button.getAttribute("data-lang");
+/* --- 2. SILLAGE DE PARTICULES SOURIS --- */
+window.addEventListener('mousemove', (e) => {
+    if (window.innerWidth > 768 && Math.random() > 0.3) {
+        const trail = document.createElement('div');
+        trail.className = 'trail';
+        const offset = 8;
+        trail.style.left = (e.clientX + (Math.random() * offset - offset/2)) + 'px';
+        trail.style.top = (e.clientY + (Math.random() * offset - offset/2)) + 'px';
         
-        // Changement de la classe active sur les boutons
-        langButtons.forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
-        
-        // Traduction des éléments avec l'attribut data-translate
-        // Note : Le titre de la marque "La Dune" n'a pas cet attribut et reste intact en français
-        document.querySelectorAll("[data-translate]").forEach(element => {
-            const key = element.getAttribute("data-translate");
-            if (translations[lang] && translations[lang][key]) {
-                element.textContent = translations[lang][key];
-            }
-        });
-    });
-});
+        const size = Math.random() * 5 + 3;
+        trail.style.width = size + 'px';
+        trail.style.height = size + 'px';
 
-// ==========================================================================
-// 2. MODAL DE NOTIFICATION DE STOCK (EXISTANTE)
-// ==========================================================================
-const stockModal = document.getElementById("stock-modal");
-const notifyButtons = document.querySelectorAll(".btn-stock");
-const closeStockBtn = document.querySelector(".close-button");
-const notifyForm = document.getElementById("notify-form");
-
-notifyButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        stockModal.style.display = "flex";
-    });
-});
-
-closeStockBtn.addEventListener("click", () => {
-    stockModal.style.display = "none";
-});
-
-notifyForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    alert("Merci ! Votre inscription a bien été prise en compte.");
-    stockModal.style.display = "none";
-    notifyForm.reset();
-});
-
-// ==========================================================================
-// 3. FENÊTRES MODALES LÉGALES (IMPRESSUM & PRIVACY - NOUVEAU)
-// ==========================================================================
-const modalImpressum = document.getElementById("modal-impressum");
-const btnImpressum = document.getElementById("open-impressum");
-const closeImpressum = document.getElementById("close-impressum");
-
-const modalPrivacy = document.getElementById("modal-privacy");
-const btnPrivacy = document.getElementById("open-privacy");
-const closePrivacy = document.getElementById("close-privacy");
-
-// Événements d'ouverture
-btnImpressum.addEventListener("click", (e) => {
-    e.preventDefault();
-    modalImpressum.style.display = "block";
-});
-
-btnPrivacy.addEventListener("click", (e) => {
-    e.preventDefault();
-    modalPrivacy.style.display = "block";
-});
-
-// Événements de fermeture via boutons 'X'
-closeImpressum.addEventListener("click", () => {
-    modalImpressum.style.display = "none";
-});
-
-closePrivacy.addEventListener("click", () => {
-    modalPrivacy.style.display = "none";
-});
-
-// Fermeture globale si clic à l'extérieur de la modale active
-window.addEventListener("click", (event) => {
-    if (event.target === stockModal) {
-        stockModal.style.display = "none";
+        document.body.appendChild(trail);
+        setTimeout(() => { trail.remove(); }, 800);
     }
-    if (event.target === modalImpressum) {
-        modalImpressum.style.display = "none";
-    }
-    if (event.target === modalPrivacy) {
-        modalPrivacy.style.display = "none";
-    }
-});    
+});
+
+/* --- 3. EFFET DE PARALLAXE AU SCROLL --- */
+const heroVideo = document.getElementById('hero-video');
+const heroContent = document.getElementById('hero-content');
+const header = document.getElementById('main-header');
+
+window.addEventListener('scroll', () => {
+    let scrollValue = window.scrollY;
+    
     if (scrollValue < window.innerHeight && window.innerWidth > 768) {
         heroContent.style.transform = `translateY(${scrollValue * 0.4}px) translateZ(-${scrollValue * 0.2}px)`;
         heroContent.style.opacity = 1 - (scrollValue / (window.innerHeight * 0.8));
