@@ -96,6 +96,22 @@ modal.addEventListener('click', (e) => {
     if (e.target === modal) { closeRecallModal(); }
 });
 
+/* --- 5B. GESTION DE LA MODALE POLITIQUE DE CONFIDENTIALITÉ --- */
+const privacyModal = document.getElementById('privacy-modal');
+
+function openPrivacyModal(event) {
+    if(event) event.preventDefault();
+    privacyModal.classList.add('active');
+}
+
+function closePrivacyModal() {
+    privacyModal.classList.remove('active');
+}
+
+privacyModal.addEventListener('click', (e) => {
+    if (e.target === privacyModal) { closePrivacyModal(); }
+});
+
 /* --- 6. GESTION DU SON ET DE L'AUTOPLAY --- */
 const video = document.getElementById('hero-video');
 const audioToggleBtn = document.getElementById('audio-toggle');
@@ -209,6 +225,17 @@ const dictionary = {
     'modal-ph': { fr: 'Votre adresse e-mail', en: 'Your email address', de: 'Ihre E-Mail-Adresse' },
     'modal-btn': { fr: "M'avertir de la disponibilité", en: 'Notify me when available', de: 'Benachrichtigen, wenn verfügbar' },
     
+    /* Textes de la Politique de Confidentialité (Conforme RGPD) */
+    'privacy-title': { fr: 'Politique de Confidentialité', en: 'Privacy Policy', de: 'Datenschutzerklärung' },
+    'privacy-intro': { fr: 'Conformément au Règlement Général sur la Protection des Données (RGPD) et aux réglementations européennes, nous accordons une importance capitale à la confidentialité de vos informations.', en: 'In accordance with the General Data Protection Regulation (GDPR) and European regulations, we attach paramount importance to the confidentiality of your information.', de: 'In Übereinstimmung mit der Datenschutz-Grundverordnung (DSGVO) und den europäischen Vorschriften legen wir höchsten Wert auf die Vertraulichkeit Ihrer Informationen.' },
+    'privacy-h1': { fr: '1. Collecte des données', en: '1. Data Collection', de: '1. Datenerhebung' },
+    'privacy-p1': { fr: 'Nous collectons uniquement votre adresse e-mail de manière volontaire lorsque vous demandez à être averti d’un réapprovisionnement.', en: 'We only collect your email address on a voluntary basis when you request to be notified of a restock.', de: 'Wir erfassen Ihre E-Mail-Adresse ausschließlich auf freiwilliger Basis, wenn Sie benachrichtigt werden möchten, sobald ein produit wieder auf Lager ist.' },
+    'privacy-h2': { fr: '2. Utilisation et Confidentialité', en: '2. Use and Confidentiality', de: '2. Nutzung und Vertraulichkeit' },
+    'privacy-p2': { fr: 'Cette adresse est exclusivement réservée à l’envoi de la notification de stock demandée. Elle ne sera jamais vendue, échangée ou partagée avec des tiers.', en: 'This address is exclusively reserved for sending the requested stock notification. It will never be sold, exchanged, or shared with third parties.', de: 'Diese Adresse ist ausschließlich für den Versand der angeforderten Bestandsbenachrichtigung reserviert. Sie wird niemals verkauft, getauscht oder an Dritte weitergegeben.' },
+    'privacy-h3': { fr: '3. Vos Droits (RGPD)', en: '3. Your Rights (GDPR)', de: '3. Ihre Rechte (DSGVO)' },
+    'privacy-p3': { fr: 'Vous bénéficiez d’un droit d’accès, de rectification, de limitation et de suppression de vos données personnelles. Vous pouvez retirer votre consentement à tout moment en nous contactant.', en: 'You have the right to access, rectify, limit, and erase your personal data. You can withdraw your consent at any time by contacting us.', de: 'Sie haben das Recht auf Auskunft, Berichtigung, Einschränkung und Löschung Ihrer personenbezogenen Daten. Sie können Ihre Einwilligung jederzeit widerrufen, indem Sie uns kontaktieren.' },
+    'privacy-btn': { fr: 'Fermer', en: 'Close', de: 'Schließen' },
+
     'f-link1': { fr: 'Mentions Légales', en: 'Legal Notice', de: 'Impressum' },
     'f-link2': { fr: 'Politique de Confidentialité', en: 'Privacy Policy', de: 'Datenschutzerklärung' },
     'f-link3': { fr: 'Boutique', en: 'Shop', de: 'Shop' },
@@ -260,6 +287,17 @@ function switchLanguage(targetLang) {
     document.getElementById('recall-email').setAttribute('placeholder', dictionary['modal-ph'][currentLang]);
     document.querySelector('.btn-submit').innerText = dictionary['modal-btn'][currentLang];
     
+    /* Traduction dynamique de la modale de confidentialité */
+    document.getElementById('privacy-modal-title').innerText = dictionary['privacy-title'][currentLang];
+    document.getElementById('privacy-modal-intro').innerText = dictionary['privacy-intro'][currentLang];
+    document.getElementById('privacy-modal-h1').innerText = dictionary['privacy-h1'][currentLang];
+    document.getElementById('privacy-modal-p1').innerText = dictionary['privacy-p1'][currentLang];
+    document.getElementById('privacy-modal-h2').innerText = dictionary['privacy-h2'][currentLang];
+    document.getElementById('privacy-modal-p2').innerText = dictionary['privacy-p2'][currentLang];
+    document.getElementById('privacy-modal-h3').innerText = dictionary['privacy-h3'][currentLang];
+    document.getElementById('privacy-modal-p3').innerText = dictionary['privacy-p3'][currentLang];
+    document.getElementById('privacy-modal-btn').innerText = dictionary['privacy-btn'][currentLang];
+
     document.querySelector('.footer-links a:nth-child(1)').innerText = dictionary['f-link1'][currentLang];
     document.querySelector('.footer-links a:nth-child(2)').innerText = dictionary['f-link2'][currentLang];
     document.querySelector('.footer-links a:nth-child(3)').innerText = dictionary['f-link3'][currentLang];
