@@ -667,6 +667,36 @@ h2::after {
     transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+/* Adaptation pour grande modale (Ex: Politique de confidentialité) */
+.modal-box-large {
+    max-width: 600px;
+    text-align: left;
+}
+
+.privacy-modal-content {
+    max-height: 50vh;
+    overflow-y: auto;
+    padding-right: 10px;
+    margin-top: 15px;
+}
+
+.privacy-modal-content h5 {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 20px 0 10px 0;
+    color: var(--primary-color);
+}
+
+.privacy-modal-content p {
+    font-size: 13px;
+    color: var(--dark-color);
+    line-height: 1.6;
+    margin-bottom: 10px;
+    text-align: justify;
+}
+
 .modal-overlay.active .modal-box {
     transform: translateY(0);
 }
