@@ -1,40 +1,397 @@
-/* --- VARIABLES & THÈME --- */
-:root {
-    --bg-color: #fcf9f5;      /* Blanc cassé / texture logo */
-    --primary-color: #c5a880; /* Or / Sable chaud */
-    --dark-color: #4a4238;    /* Marron très foncé / presque noir pour le texte */
-    --light-gold: #dfcdb4;    /* Or clair pour les surbrillances */
-    --alert-red: #b83c3c;     /* Rouge sobre pour la rupture de stock */
-    --font-serif: 'Cormorant Garamond', serif;
-    --font-sans: 'Montserrat', sans-serif;
-    --font-signature: 'Alex Brush', cursive;
-}
-
-/* --- SÉLECTION & SCROLLBAR --- */
-::-webkit-scrollbar {
-    width: 8px;
-}
-::-webkit-scrollbar-track {
-    background: var(--bg-color);
-}
-::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
-}
-
-/* --- STYLES GÉNÉRAUX --- */
+/* ==========================================================================
+   1. RESET ET BASES
+   ========================================================================== */
 * {
     margin: 0;
     padding: 0;
+    box-shadow: border-box;
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #ffffff;
+    color: #002344; /* Bleu Présidentiel */
+    overflow-x: hidden;
 }
 
-body {
-    font-family: var(--font-sans);
-    background-color: var(--bg-color);
+/* ==========================================================================
+   2. NAVBAR
+   ========================================================================== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: rgba(255, 255, 255, 0.95);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 35, 68, 0.05);
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.logo .signature {
+    font-weight: 300;
+    color: #c49a45; /* Touche dorée raffinée */
+}
+
+.language-selector {
+    display: flex;
+    gap: 10px;
+}
+
+.lang-btn {
+    background: none;
+    border: 1px solid #002344;
+    color: #002344;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.lang-btn.active, .lang-btn:hover {
+    background-color: #002344;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   3. HERO SECTION (AVEC VIDÉO)
+   ========================================================================== */
+.hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #ffffff;
+}
+
+.video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+#hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 35, 68, 0.4); /* Assombrit légèrement la vidéo pour la lisibilité */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 15px 35px;
+    background-color: #ffffff;
+    color: #002344;
+    text-decoration: none;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #002344;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   4. COLLECTIONS ET PRODUITS
+   ========================================================================== */
+.collections {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 60px;
+    text-transform: uppercase;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
+}
+
+.product-card {
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 35, 68, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 30px;
+    text-align: center;
+}
+
+.product-info h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: 400;
+}
+
+.product-info p {
+    font-size: 14px;
+    color: #555555;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.btn-stock {
+    background: none;
+    border: 1px solid #002344;
+    color: #002344;
+    padding: 12px 25px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-stock:hover {
+    background-color: #002344;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   5. FENÊTRE MODALE STOCK (EXISTANTE)
+   ========================================================================== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 35, 68, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.notify-form input {
+    width: 100%;
+    padding: 12px;
+    margin: 20px 0;
+    border: 1px solid #ccc;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #002344;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   6. FOOTER SITE INTERNET
+   ========================================================================== */
+.site-footer {
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid rgba(0, 35, 68, 0.05);
+    background-color: #fafafa;
+    font-size: 13px;
+    color: #666666;
+}
+
+.footer-links {
+    margin-top: 15px;
+}
+
+.footer-links a {
+    color: #002344;
+    text-decoration: none;
+    margin: 0 8px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #c49a45;
+}
+
+.separator {
+    color: #ccc;
+}
+
+/* ==========================================================================
+   7. STRUCTURE DES MODALES LÉGALES (AJOUTÉES)
+   ========================================================================== */
+.legal-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999; /* Au-dessus de tout */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 35, 68, 0.4);
+    backdrop-filter: blur(8px); /* Flou moderne */
+    animation: fadeInModal 0.4s ease;
+}
+
+.legal-modal-content {
+    background-color: #ffffff;
+    margin: 5% auto;
+    padding: 40px;
+    border-radius: 4px;
+    width: 85%;
+    max-width: 800px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    position: relative;
+}
+
+.close-legal {
+    color: #002344;
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 35px;
+    font-weight: 300;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-legal:hover {
+    color: #c49a45;
+}
+
+.legal-text-body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #333333;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.legal-text-body h1 {
+    font-size: 24px;
+    color: #002344;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.legal-text-body h2 {
+    font-size: 18px;
+    color: #002344;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 5px;
+}
+
+.legal-text-body h3 {
+    font-size: 15px;
+    color: #555555;
+    margin-top: 15px;
+}
+
+.legal-text-body p, .legal-text-body ul {
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.legal-text-body a {
+    color: #002344;
+    text-decoration: underline;
+}
+
+.legal-hr {
+    border: 0;
+    border-top: 1px solid #dddddd;
+    margin: 40px 0;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}    background-color: var(--bg-color);
     color: var(--dark-color);
     line-height: 1.6;
     overflow-x: hidden;
