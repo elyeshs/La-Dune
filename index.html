@@ -3,132 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Dune Signature | Cosmétique Élégante & Sobre</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&family=Playfair+Display+SC&family=Alex+Brush&display=swap" rel="stylesheet">
-    
+    <title>La Dune Signature | Haute Pâtisserie</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header id="main-header">
-        <div class="logo-container">
-            <div class="logo-title">La Dune</div>
-            <div class="logo-subtitle">Signature</div>
+    <header class="navbar">
+        <div class="logo">La Dune <span class="signature">Signature</span></div>
+        
+        <div class="language-selector">
+            <button class="lang-btn active" data-lang="fr">FR</button>
+            <button class="lang-btn" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="de">DE</button>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#hero">Accueil</a></li>
-                <li><a href="#histoire">L'Histoire</a></li>
-                <li><a href="#collection">Collection</a></li>
-                <li><a href="#contact">Contact</a></li>
-                
-                <li class="lang-selector-container" id="lang-container">
-                    <div class="lang-custom-trigger" onclick="toggleLangMenu(event)">
-                        🌐 <span id="current-lang-label">FR</span>
-                    </div>
-                    <ul class="lang-custom-menu">
-                        <li id="opt-fr" class="selected" onclick="switchLanguage('fr')">FR</li>
-                        <li id="opt-en" onclick="switchLanguage('en')">EN</li>
-                        <li id="opt-de" onclick="switchLanguage('de')">DE</li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
     </header>
 
-    <section class="hero" id="hero">
-        <video class="hero-video" id="hero-video" autoplay loop muted playsinline preload="auto">
-            <source src="Dune Prototype 1.mp4" type="video/mp4">
-            Votre navigateur ne supporte pas la lecture de cette vidéo.
-        </video>
-        
-        <div class="hero-overlay"></div>
-        
-        <div class="hero-content" id="hero-content">
-            <div class="hero-dune-icon"></div>
-            <h1 id="animated-title">La Dune</h1>
-            <span class="signature">Signature</span>
-            <p>L'essentiel de la beauté pure, inspiré par la nature</p>
-            <a href="#collection" class="btn-gold">Découvrir la collection</a>
+    <section class="hero">
+        <div class="video-container">
+            <video autoplay loop muted playsinline id="hero-video">
+                <source src="assets/ambiance.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture de vidéos.
+            </video>
+            <div class="video-overlay"></div>
         </div>
-
-        <div class="audio-toggle" id="audio-toggle" onclick="toggleAudio(event)">
-            <span class="audio-icon">MUTE</span>
+        
+        <div class="hero-content">
+            <h1 data-translate="hero-title">L'Élégance de la Haute Pâtisserie</h1>
+            <p data-translate="hero-subtitle">Des créations d'exception façonnées à la main à Oberhausen.</p>
+            <a href="#collections" class="btn-primary" data-translate="hero-btn">Découvrir nos créations</a>
         </div>
     </section>
 
-    <section class="section-about fade-in" id="histoire">
-        <span class="section-tag">L'Équilibre Pure</span>
-        <h2>Notre Philosophie</h2>
-        <p class="about-text">
-            "Née du mouvement intemporel du vent sur le sable, La Dune Signature incarne des rituels cosmétiques épurés. Des textures fluides, des formulations d'une pureté absolue, créées pour révéler l'éclat authentique et sobre de votre peau."
-        </p>
-        <div class="hero-dune-icon" style="transform: scale(0.7); margin-top: 20px;"></div>
-    </section>
-
-    <section class="section-products" id="collection">
-        <div class="section-title-center fade-in">
-            <span class="section-tag">Édition Limitée</span>
-            <h2>La Collection Signature</h2>
-        </div>
+    <section id="collections" class="collections">
+        <h2 class="section-title" data-translate="products-title">Nos Collections Signature</h2>
         
-        <div class="product-grid">
-            <div class="product-card fade-in">
-                <div class="product-image-placeholder"></div>
-                <h3>L'Élixir Doré</h3>
-                <div class="product-type">Huile de soin régénérante</div>
-                <span class="stock-status">Rupture de stock</span>
-                <button class="btn-recall" onclick="openRecallModal('L\'Élixir Doré')">Rappelez-moi</button>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="assets/charlotte-fraise.jpg" alt="Charlotte aux Fraises">
+                </div>
+                <div class="product-info">
+                    <h3>Charlotte Royale aux Fraises</h3>
+                    <p data-translate="product1-desc">Biscuits cuillère faits maison, crème diplomate légère à la vanille de Madagascar et fraises fraîches sélectionnées.</p>
+                    <button class="btn-stock" data-translate="notify-btn">M'avertir de la disponibilité</button>
+                </div>
             </div>
-            
-            <div class="product-card fade-in">
-                <div class="product-image-placeholder"></div>
-                <h3>Crème de Soie</h3>
-                <div class="product-type">Soin hydratant absolu</div>
-                <span class="stock-status">Rupture de stock</span>
-                <button class="btn-recall" onclick="openRecallModal('Crème de Soie')">Rappelez-moi</button>
-            </div>
-            
-            <div class="product-card fade-in">
-                <div class="product-image-placeholder"></div>
-                <h3>Brume de Sable</h3>
-                <div class="product-type">Lotion tonique minérale</div>
-                <span class="stock-status">Rupture de stock</span>
-                <button class="btn-recall" onclick="openRecallModal('Brume de Sable')">Rappelez-moi</button>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="assets/charlotte-chocolat.jpg" alt="Charlotte Chocolat">
+                </div>
+                <div class="product-info">
+                    <h3>Charlotte Intense Chocolat</h3>
+                    <p data-translate="product2-desc">Mousse au chocolat noir grand cru 70%, éclat de noisettes torréfiées et biscuit imbibé au cacao délicat.</p>
+                    <button class="btn-stock" data-translate="notify-btn">M'avertir de la disponibilité</button>
+                </div>
             </div>
         </div>
     </section>
 
-    <div class="modal-overlay" id="recall-modal">
-        <div class="modal-box">
-            <span class="modal-close" onclick="closeRecallModal()">&times;</span>
-            <h4 id="modal-product-name">Rappelez-moi</h4>
-            <p>Inscrivez votre e-mail pour recevoir une notification prioritaire dès que ce produit sera de nouveau disponible.</p>
-            <form class="modal-form" onsubmit="handleRecallSubmit(event)">
-                <input type="email" id="recall-email" placeholder="Votre adresse e-mail" required>
-                <button type="submit" class="btn-submit">M'avertir de la disponibilité</button>
+    <div id="stock-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 data-translate="modal-title">Restez informé</h3>
+            <p data-translate="modal-desc">Inscrivez-vous pour recevoir une notification exclusive dès notre prochaine ouverture de commandes.</p>
+            <form id="notify-form">
+                <input type="email" placeholder="Votre adresse e-mail" required>
+                <button type="submit" class="btn-submit" data-translate="submit-btn">Valider</button>
             </form>
         </div>
     </div>
 
-    <footer id="contact">
-        <div class="footer-logo">La Dune</div>
-        <div class="footer-logo-sub">Signature</div>
-        
+    <footer class="site-footer">
+        <p>© 2026 La Dune Signature. Tous droits réservés.</p>
         <div class="footer-links">
-            <a href="#">Mentions Légales</a>
-            <a href="#">Politique de Confidentialité</a>
-            <a href="#">Boutique</a>
-            <a href="#">Suivez-nous</a>
-        </div>
-        
-        <div class="divider"></div>
-        <div class="copyright">
-            &copy; 2026 LA DUNE SIGNATURE — LRH. TOUS DROITS RÉSERVÉS.
+            <a href="#" id="open-impressum">Impressum / Mentions Légales</a>
+            <span class="separator">|</span>
+            <a href="#" id="open-privacy">Politique de Confidentialité</a>
         </div>
     </footer>
+
+    <div id="modal-impressum" class="legal-modal">
+        <div class="legal-modal-content">
+            <span class="close-legal" id="close-impressum">&times;</span>
+            <div class="legal-text-body">
+                <h1>Impressum</h1>
+                <h2>Angaben gemäß § 5 TMG</h2>
+                <p>
+                    La Dune Signature<br>
+                    [Votre Prénom und Name]<br>
+                    [Votre Adresse : Rue und Numéro]<br>
+                    [Code Postal und Ville (ex: 46045 Oberhausen)]
+                </p>
+
+                <h2>Kontakt</h2>
+                <p>
+                    Telefon: [Votre Numéro de Téléphone]<br>
+                    E-Mail: [Votre Adresse E-Mail Professionnelle]
+                </p>
+
+                <h2>Redaktionell verantwortlich</h2>
+                <p>
+                    [Votre Prénom und Name]<br>
+                    [Votre Adresse]
+                </p>
+
+                <h2>EU-Streitschlichtung</h2>
+                <p>
+                    Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: 
+                    <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr</a>.<br>
+                    Unsere E-Mail-Adresse finden Sie oben im Impressum.
+                </p>
+
+                <h2>Verbraucher­streit­beilegung/Universal­schlichtungs­stelle</h2>
+                <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+                <hr class="legal-hr">
+
+                <h1>Mentions Légales</h1>
+                <h2>Éditeur du site</h2>
+                <p>
+                    Le site internet "La Dune Signature" est édité par :<br>
+                    [Votre Prénom et Nom]<br>
+                    Résidant à : [Votre Adresse, Code Postal, Ville, Allemagne]<br>
+                    Adresse e-mail : [Votre Adresse E-Mail]<br>
+                    Directeur de la publication : [Votre Prénom et Nom]
+                </p>
+
+                <h2>Hébergement du site</h2>
+                <p>
+                    Le site est hébergé par :<br>
+                    GitHub Inc.<br>
+                    88 Colin P. Kelly Jr. St, San Francisco, CA 94107, États-Unis<br>
+                    Site web : https://pages.github.com
+                </p>
+
+                <h2>Règlement des litiges en ligne</h2>
+                <p>Conformément à l'article 14, alinéa 1 du règlement ODR européen, la Commission Européenne met à disposition une plateforme de règlement en ligne des litiges (RLL) accessible à cette adresse : <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr</a>.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-privacy" class="legal-modal">
+        <div class="legal-modal-content">
+            <span class="close-legal" id="close-privacy">&times;</span>
+            <div class="legal-text-body">
+                <h1>Datenschutzerklärung</h1>
+                <h2>1. Datenschutz auf einen Blick</h2>
+                <h3>Allgemeine Hinweise</h3>
+                <p>Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können.</p>
+
+                <h3>Datenerfassung auf unserer Website</h3>
+                <p><strong>Wer ist verantwortlich für die Datenerfassung auf dieser Website?</strong></p>
+                <p>Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber. Dessen Kontaktdaten können Sie dem Impressum dieser Website entnehmen.</p>
+                <p><strong>Wie erfassen wir Ihre Daten?</strong></p>
+                <p>Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen. Hierbei kann es sich z. B. um Daten handeln, die Sie in ein Kontakt- oder Benachrichtigungsformular eingeben. Andere Daten werden automatisch oder nach Ihrer Einwilligung beim Besuch der Website durch unsere IT-Systeme erfasst.</p>
+
+                <h2>2. Hosting</h2>
+                <h3>GitHub Pages</h3>
+                <p>Anbieter ist die GitHub Inc., 88 Colin P. Kelly Jr. St, San Francisco, CA 94107, USA. Wenn Sie unsere Website besuchen, erfasst GitHub Logfiles, einschließlich Ihrer IP-Adresse. Die Verwendung von GitHub Pages erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO.</p>
+
+                <h2>3. Allgemeine Hinweise und Pflichtinformationen</h2>
+                <p>Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Sie haben im Rahmen der geltenden gesetzlichen Bestimmungen jederzeit das Recht auf unentgeltliche Auskunft über Ihre gespeicherten personenbezogenen Daten, deren Herkunft und Empfänger und den Zweck der Datenverarbeitung sowie ein Recht auf Berichtigung oder Löschung dieser Daten.</p>
+
+                <h2>4. Datenerfassung auf unserer Website</h2>
+                <h3>Kontaktformular / Verfügbarkeitsbenachrichtigung</h3>
+                <p>Wenn Sie uns per Formular Anfragen oder Benachrichtigungswünsche (z.B. bei Lagerbestand) zukommen lassen, werden Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten (Name, E-Mail-Adresse) zwecks Bearbeitung der Anfrage gespeichert. Die Verarbeitung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO oder Ihrer Einwilligung.</p>
+
+                <hr class="legal-hr">
+
+                <h1>Politique de Confidentialité</h1>
+                <h2>1. Traitement des données des visiteurs</h2>
+                <p>La Dune Signature s'engage à ce que la collecte et le traitement de vos données soient conformes au règlement général sur la protection des données (RGPD).</p>
+
+                <h2>2. Responsable du traitement</h2>
+                <p>Les données personnelles sont collectées par : [Votre Prénom et Nom], [Votre Adresse, Code Postal, Ville, Allemagne].</p>
+
+                <h2>3. Données collectées et finalités</h2>
+                <p>We collectons votre nom et votre adresse e-mail (uniquement si vous les renseignez dans un formulaire de contact ou d'alerte stock) ainsi que votre adresse IP (via l'hébergeur GitHub Pages pour la sécurité technique).</p>
+
+                <h2>4. Durée de conservation et Droits</h2>
+                <p>Les données transmises via les formulaires sont conservées pendant un maximum de 12 mois. Vous disposez d'un droit d'accès, de rectification, de portabilité et d'effacement de vos données en écrivant à : [Votre Adresse E-Mail].</p>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
